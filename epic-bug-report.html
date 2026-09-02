@@ -1025,11 +1025,23 @@ function stackData(set){
     if (epic) {
       if (windowKey === 'beta' && epic.beta) {
         bugs = allBugs.filter(b => (QBS[b.id]||'') <= epic.beta);
-      } else if (windowKey === '30d' && epic.close) {
-        const d = new Date(epic.close); d.setDate(d.getDate()+30);
-        bugs = allBugs.filter(b => (QBS[b.id]||'') > epic.close && (QBS[b.id]||'') <= d.toISOString().slice(0,10));
-      } else if (windowKey === '90d' && epic.close) {
-        const d = new Date(epic.close); d.setDate(d.getDate()+90);
+      } else if (windowKey === '30d' || windowKey === '90d') {
+        if (!epic.close) {
+          // No close date — show message and return early
+          const rawKey0 = Object.keys(window.EPIC_LABEL||{}).find(k => window.EPIC_LABEL[k] === epicLabel) || epicLabel;
+          const epicEntry0 = (window._EPICS_GLOBAL||{})[rawKey0];
+          const epicUrl0 = epicEntry0 ? `https://app.clickup.com/t/${epicEntry0.epicId}` : null;
+          document.getElementById(titleId).innerHTML = epicUrl0
+            ? `<a href="${epicUrl0}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline">${epicLabel}</a> — not closed yet`
+            : `${epicLabel} — not closed yet`;
+          document.getElementById(tbodyId).innerHTML = `<tr><td colspan="6" style="padding:20px 12px;text-align:center;color:#94a3b8">This epic has not been closed yet — no post-close window available.</td></tr>`;
+          const drawer0 = document.getElementById(drawerId);
+          drawer0.style.display = 'block';
+          drawer0.scrollIntoView({behavior:'smooth', block:'nearest'});
+          return;
+        }
+        const days = windowKey === '30d' ? 30 : 90;
+        const d = new Date(epic.close); d.setDate(d.getDate()+days);
         bugs = allBugs.filter(b => (QBS[b.id]||'') > epic.close && (QBS[b.id]||'') <= d.toISOString().slice(0,10));
       }
     }
