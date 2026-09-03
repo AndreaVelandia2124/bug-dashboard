@@ -194,9 +194,20 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   </section>
 
   <section class="panel" id="panel-epic-charts">
-    <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by lifecycle milestone</h2></div>
-    <p style="margin:14px 0 0;color:var(--grey);max-width:72ch;font-size:14px">Each dot is one epic. <b>Top</b>: bugs by beta date. <b>Middle</b>: bugs in 30d post-close. <b>Bottom</b>: bugs in 90d post-close. Click a dot to see bug list.</p>
-    <div id="epic-charts-wrap" style="display:flex;flex-direction:column;gap:32px;margin-top:20px">
+    <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by delivery milestone</h2></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap">
+      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic reached Beta. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Click any dot to see details.</p>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <label style="font-size:13px;font-weight:600;color:var(--navy,#1e293b);white-space:nowrap">Show bugs:</label>
+        <select id="bug-filter-select" onchange="window.applyBugFilter(this.value)"
+          style="font-size:13px;padding:5px 10px;border:1px solid var(--border,#e2e8f0);border-radius:6px;background:#fff;color:var(--navy,#1e293b);cursor:pointer">
+          <option value="all">All bugs</option>
+          <option value="class23">Class 2 &amp; 3 only (High / Critical)</option>
+        </select>
+      </div>
+    </div>
+    <div id="epic-charts-wrap" style="display:flex;flex-direction:column;gap:32px;margin-top:16px">
+      <p id="m-filter-label" style="margin:0;font-size:12px;color:var(--grey,#64748b)">Showing <b>all bug classes</b></p>
 
       <!-- Chart 1: bugs by beta -->
       <div>
@@ -852,19 +863,51 @@ function stackData(set){
     "Sliding Snow":                       "US Snow Loads",
   };
 
+  // Class 2/3 filter
+  const EPIC_BUG_IDS = {
+    "IDG – Internal Double Gusset":       ["86d3tcrd5","86d3zaeyv","86d3rxhfc"],
+    "LINK BRACE BM–COL (Shear)":          ["86d3rxhe4","86d3q55d7"],
+    "HSS Splice: Add Shear":              [],
+    "INV – HSS to HSS Shear":             ["86d44eqby"],
+    "OEPC – HSS to HSS":                  ["86d3qfh4a"],
+    "CFS Column – Lateral Loads":         ["86d43u1jn"],
+    "Base Plate Brace Loading (HSS Col)": ["86d42np3u"],
+    "Sliding Snow":                       ["86d3jwfgx"],
+    "C&C – Parapet & Overhang Wind (ASCE 7-22)": ["86d3nm4x6","86d3nm4xj"],
+    "NBCC 2020 Snow Loads":              ["86d3p8tr5"],
+    "ASCE 7-22 Snow Loads – Upgrades":  ["86d3nm14b"],    "ICC Means of Egress – Route Diagram": ["86d3xphjz"],
+    "(PHASE2) Moment End Plate Splice – Rect": ["86d3ccagc"],
+  };
+  const HIGH_CLS = new Set(["Class 2a - High","Class 2b - Very High","Class 3 - Critical"]);
+  let currentFilter = 'all';
+
+  // Compute counts per epic per window, optionally filtered
+  function epicCount(epicLabel, windowKey, filter) {
+    const QBS = window.QBS_I || {};
+    const ids = EPIC_BUG_IDS[epicLabel] || [];
+    let bugs = BUGS.filter(b => ids.includes(b.id));
+    if (filter === 'class23') bugs = bugs.filter(b => HIGH_CLS.has(b.cls));
+    const epic = EPICS.find(e => e.label === epicLabel);
+    if (!epic) return 0;
+    if (windowKey === 'beta') {
+      return epic.beta ? bugs.filter(b => (QBS[b.id]||'') <= epic.beta).length : null;
+    }
+    if (!epic.close) return null;
+    const days = windowKey === '30d' ? 30 : 90;
+    const d = new Date(epic.close); d.setDate(d.getDate()+days);
+    return bugs.filter(b => (QBS[b.id]||'') > epic.close && (QBS[b.id]||'') <= d.toISOString().slice(0,10)).length;
+  }
+
   // Generic scatter + trend line builder
   function makeScatter(title, xLabel, points, windowKey) {
-    // points: [{label, x (date string), y (number)}]
-    const W=900, H=400, PL=50, PR=24, PT=40, PB=60;
+    const W=900, H=400, PL=50, PR=24, PT=40, PB=64;
     const plotW = W-PL-PR, plotH = H-PT-PB;
 
     const validPts = points.filter(p => p.x && p.y !== null);
-
-    // Usamos todos los puntos (y>=0) para definir el rango X del eje
-    const allPts = points.filter(p => p.x && p.y !== null);
+    const allPts   = points.filter(p => p.x && p.y !== null);
     const xs = allPts.length ? allPts.map(p => new Date(p.x).getTime())
-                             : [new Date('2026-06-01').getTime(), new Date('2026-08-26').getTime()];
-    const ys = validPts.map(p => p.y);
+                             : [new Date('2026-03-01').getTime(), new Date('2026-08-26').getTime()];
+    const ys = validPts.filter(p => p.y > 0).map(p => p.y);
     const xMin = Math.min(...xs), xMax = Math.max(...xs);
     const yMin = 0, yMax = ys.length ? Math.max(...ys) + 1 : 3;
     const padding = (xMax === xMin) ? 30*24*60*60*1000 : 0;
@@ -889,26 +932,38 @@ function stackData(set){
     let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;border:1px solid #e2e8f0;border-radius:10px;background:#fff" role="img">`;
 
     // Title
-    svg += `<text x="${PL}" y="18" font-size="12" font-weight="600" fill="#1e293b">${title}</text>`;
+    svg += `<text x="${PL}" y="22" font-size="13" font-weight="700" fill="#1e293b">${title}</text>`;
 
-    // Y axis grid + labels — one line per integer
+    // Y axis grid + labels
     const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
     yTicks.forEach(v => {
       const y = py(v);
       svg += `<line x1="${PL}" x2="${W-PR}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
-      svg += `<text x="${PL-6}" y="${y+4}" font-size="11" fill="#94a3b8" text-anchor="end">${v}</text>`;
+      svg += `<text x="${PL-6}" y="${y+4}" text-anchor="end" font-size="11" fill="#94a3b8">${v}</text>`;
     });
 
     // X axis
     svg += `<line x1="${PL}" x2="${W-PR}" y1="${PT+plotH}" y2="${PT+plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
+    svg += `<line x1="${PL}" x2="${PL}" y1="${PT}" y2="${PT+plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
 
-    // X tick labels (just min and max date)
-    const fmt = ms => { const d=new Date(ms); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-    svg += `<text x="${PL}" y="${PT+plotH+14}" font-size="9" fill="#94a3b8" text-anchor="middle">${fmt(xMin - padding)}</text>`;
-    if (xMax > xMin) svg += `<text x="${W-PR}" y="${PT+plotH+14}" font-size="9" fill="#94a3b8" text-anchor="middle">${fmt(xMax + padding)}</text>`;
+    // X ticks — one per month across the full range
+    const startDate = new Date(xMin - padding);
+    startDate.setDate(1); // snap to month start
+    const endDate   = new Date(xMax + padding);
+    const MNAME = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let tickDate = new Date(startDate);
+    while (tickDate <= endDate) {
+      const tx = px(tickDate.getTime());
+      if (tx >= PL && tx <= W-PR) {
+        svg += `<line x1="${tx.toFixed(1)}" x2="${tx.toFixed(1)}" y1="${PT+plotH}" y2="${PT+plotH+4}" stroke="#94a3b8" stroke-width="1"/>`;
+        const lbl = `${MNAME[tickDate.getMonth()]} '${String(tickDate.getFullYear()).slice(2)}`;
+        svg += `<text x="${tx.toFixed(1)}" y="${PT+plotH+16}" font-size="10" fill="#94a3b8" text-anchor="middle">${lbl}</text>`;
+      }
+      tickDate.setMonth(tickDate.getMonth()+1);
+    }
 
     // X axis label
-    svg += `<text x="${W/2}" y="${H-4}" font-size="9" fill="#64748b" text-anchor="middle">${xLabel}</text>`;
+    svg += `<text x="${PL+plotW/2}" y="${H-6}" font-size="11" fill="#64748b" text-anchor="middle">${xLabel}</text>`;
 
     // Trend line
     const tx1 = xMin, tx2 = xMax;
@@ -971,45 +1026,60 @@ function stackData(set){
 
   // Chart 1: bugs at beta date — all epics with a beta date
   const betaEpics = EPICS.filter(e => e.beta && e.at_beta !== null);
-  const chart1 = makeScatter(
-    "Bugs found by beta", "Beta date",
-    betaEpics.map(e => ({label:e.label, calc:EPIC_TO_CALC[e.label]||e.label, x:e.beta, y:e.at_beta})),
-    "beta"
-  );
 
-  // Chart 2: same epics as chart1, y = bugs 30d post-close (0 if no close or no bugs)
-  const chart2 = makeScatter(
-    "Bugs 30d after close", "Beta date (reference)",
-    betaEpics.map(e => ({label:e.label, calc:EPIC_TO_CALC[e.label]||e.label, x:e.beta, y:(e.b30d !== null ? e.b30d : 0)})),
-    "30d"
-  );
+  function buildCharts(filter) {
+    const chart1 = makeScatter(
+      "Bugs found before Beta",
+      "Epic beta date →",
+      betaEpics.map(e => ({
+        label: e.label,
+        calc: EPIC_TO_CALC[e.label]||e.label,
+        x: e.beta,
+        y: epicCount(e.label, 'beta', filter)
+      })),
+      "beta"
+    );
+    const chart2 = makeScatter(
+      "New bugs in first 30 days after Epic close",
+      "← Epic close date (reference: beta date used for epics not yet closed)",
+      betaEpics.map(e => ({
+        label: e.label,
+        calc: EPIC_TO_CALC[e.label]||e.label,
+        x: e.beta,
+        y: epicCount(e.label, '30d', filter) ?? 0
+      })),
+      "30d"
+    );
+    const chart3 = makeScatter(
+      "New bugs in first 90 days after Epic close",
+      "← Epic close date (reference: beta date used for epics not yet closed)",
+      betaEpics.map(e => ({
+        label: e.label,
+        calc: EPIC_TO_CALC[e.label]||e.label,
+        x: e.beta,
+        y: epicCount(e.label, '90d', filter) ?? 0
+      })),
+      "90d"
+    );
+    renderChart('m-chart-beta', chart1);
+    renderChart('m-chart-30d',  chart2);
+    renderChart('m-chart-90d',  chart3);
+    // Update subtitle with filter info
+    const subtitle = filter === 'class23'
+      ? 'Showing <b>Class 2 &amp; 3 only</b> (High / Critical bugs)'
+      : 'Showing <b>all bug classes</b>';
+    const el = document.getElementById('m-filter-label');
+    if (el) el.innerHTML = subtitle;
+  }
 
-  // Chart 3: same epics as chart1, y = bugs 90d post-close (0 if no close or no bugs)
-  const chart3 = makeScatter(
-    "Bugs 90d after close", "Beta date (reference)",
-    betaEpics.map(e => ({label:e.label, calc:EPIC_TO_CALC[e.label]||e.label, x:e.beta, y:(e.b90d !== null ? e.b90d : 0)})),
-    "90d"
-  );
+  window.applyBugFilter = function(val) {
+    currentFilter = val;
+    buildCharts(val);
+  };
 
-  renderChart('m-chart-beta', chart1);
-  renderChart('m-chart-30d',  chart2);
-  renderChart('m-chart-90d',  chart3);
+  buildCharts('all');
 
   // Bugs por epic (solo los 9 confirmados por linked task)
-  const EPIC_BUG_IDS = {
-    "IDG – Internal Double Gusset":       ["86d3tcrd5","86d3zaeyv","86d3rxhfc"],
-    "LINK BRACE BM–COL (Shear)":          ["86d3rxhe4","86d3q55d7"],
-    "HSS Splice: Add Shear":              [],
-    "INV – HSS to HSS Shear":             ["86d44eqby"],
-    "OEPC – HSS to HSS":                  ["86d3qfh4a"],
-    "CFS Column – Lateral Loads":         ["86d43u1jn"],
-    "Base Plate Brace Loading (HSS Col)": ["86d42np3u"],
-    "Sliding Snow":                       ["86d3jwfgx"],
-    "C&C – Parapet & Overhang Wind (ASCE 7-22)": ["86d3nm4x6","86d3nm4xj"],
-    "NBCC 2020 Snow Loads":              ["86d3p8tr5"],
-    "ASCE 7-22 Snow Loads – Upgrades":  ["86d3nm14b"],    "ICC Means of Egress – Route Diagram": ["86d3xphjz"],
-    "(PHASE2) Moment End Plate Splice – Rect": ["86d3ccagc"],
-  };
 
   // showMBugs — abre el drawer específico de esa gráfica
   window.showMBugs = function(calc, epicLabel, windowKey) {
