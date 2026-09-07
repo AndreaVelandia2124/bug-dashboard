@@ -196,7 +196,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   <section class="panel" id="panel-epic-charts">
     <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by delivery milestone</h2></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap">
-      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Click any dot to see details.</p>
+      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed (open epics: all bugs so far, plotted at today). <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Click any dot to see details.</p>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <label style="font-size:13px;font-weight:600;color:var(--navy,#1e293b);white-space:nowrap">Show bugs:</label>
         <select id="bug-filter-select" onchange="window.applyBugFilter(this.value)"
@@ -884,6 +884,7 @@ function stackData(set){
     {epic:"ASCE Snow",        label:"ASCE 7-22 Snow Loads – Upgrades",   beta:null, close:"2026-07-17", at_beta:0, b30d:0, b90d:0},
     {epic:"ICC MoE",          label:"ICC Means of Egress – Route Diagram",beta:null, close:"2026-07-31", at_beta:1, b30d:0, b90d:0},
     {epic:"Moment Splice",    label:"(PHASE2) Moment End Plate Splice – Rect", beta:null, close:null, at_beta:1, b30d:0, b90d:0},
+    {epic:"Longitudinal Plate", label:"Longitudinal Plate (T/Y/Cross)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
     {epic:"EDG",             label:"EDG – External Double Gusset", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
     {epic:"Combined Footing", label:"Combined Footing (IBC 2024)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
     {epic:"Composite Beam",   label:"Steel Composite Beam (LRFD)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
@@ -939,8 +940,9 @@ function stackData(set){
     const epic = EPICS.find(e => e.label === epicLabel);
     if (!epic) return 0;
     if (windowKey === 'beta') {
-      const cutoff = epic.close || epic.beta;
-      return cutoff ? bugs.filter(b => (QBS[b.id]||'') <= cutoff).length : null;
+      // Chart 1: bugs found before close. Open epics: all bugs so far.
+      if (epic.close) return bugs.filter(b => (QBS[b.id]||'') <= epic.close).length;
+      return bugs.length;
     }
     if (!epic.close) return null;
     const days = windowKey === '30d' ? 30 : 90;
@@ -1024,10 +1026,17 @@ function stackData(set){
               stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>`;
     }
 
-    // Dots — filled for y>0, hollow for y=0, all clickable
+    // Dots — filled for y>0, hollow for y=0, all clickable.
+    // Jitter coincident (x,y) so stacked open epics stay clickable.
+    const seenXY = {};
+    const hitDots = [];
     validPts.forEach(p => {
-      const cx = px(new Date(p.x).getTime());
+      const key = p.x + '|' + p.y;
+      const slot = seenXY[key] || 0;
+      seenXY[key] = slot + 1;
+      const cx = Math.min(W-PR-8, px(new Date(p.x).getTime()) + slot * 12);
       const cy = py(p.y);
+      hitDots.push({cx, cy, W, H, label: p.label, calc: p.calc||'', windowKey});
       const calcEsc = (p.calc||'').replace(/'/g,"\\'").replace(/&/g,'&amp;');
       const labelEsc = p.label.replace(/'/g,"\\'");
       const tip = `${p.label}\n${p.x}: ${p.y} bug${p.y!==1?'s':''}`;
@@ -1047,14 +1056,7 @@ function stackData(set){
     });
 
     svg += '</svg>';
-    return {svg, dots: validPts.map(p => ({
-      cx: px(new Date(p.x).getTime()),
-      cy: py(p.y),
-      W, H,
-      label: p.label,
-      calc: p.calc||'',
-      windowKey
-    }))};
+    return {svg, dots: hitDots};
   }
 
   function renderChart(containerId, result) {
@@ -1074,17 +1076,18 @@ function stackData(set){
     });
   }
 
-  // Chart 1: bugs at beta date — all epics with a beta date
+  // Chart 2/3 still need a beta date on the x-axis for unclosed epics.
   const betaEpics = EPICS.filter(e => e.beta && e.at_beta !== null);
+  const AS_OF = "2026-09-07";
 
   function buildCharts(filter) {
     const chart1 = makeScatter(
       "Bugs found before close",
-      "Epic close date →",
-      betaEpics.map(e => ({
+      "Epic close date →  ·  open epics plotted at today",
+      EPICS.map(e => ({
         label: e.label,
         calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.close || e.beta,
+        x: e.close || AS_OF,
         y: epicCount(e.label, 'beta', filter)
       })),
       "beta"
@@ -1144,8 +1147,9 @@ function stackData(set){
     let bugs = allBugs;
     if (epic) {
       if (windowKey === 'beta') {
-        const cutoff = epic.close || epic.beta;
-        bugs = cutoff ? allBugs.filter(b => (QBS[b.id]||'') <= cutoff) : allBugs;
+        bugs = epic.close
+          ? allBugs.filter(b => (QBS[b.id]||'') <= epic.close)
+          : allBugs;
       } else if (windowKey === '30d' || windowKey === '90d') {
         if (!epic.close) {
           // No close date — show message and return early
