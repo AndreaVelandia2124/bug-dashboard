@@ -158,9 +158,9 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
     <h1>Calculator bugs — Epic view</h1>
     <p>Bug timeline by epic and lifecycle milestone. Click ≡ on the timeline or a dot on the charts to see bug details.</p>
     <div class="stats">
-      <div class="stat"><b>67</b><span>tickets</span></div>
-      <div class="stat"><b class="r">28</b><span>open</span></div>
-      <div class="stat"><b>20</b><span>traced to an epic</span></div>
+      <div class="stat"><b>71</b><span>tickets</span></div>
+      <div class="stat"><b class="r">32</b><span>open</span></div>
+      <div class="stat"><b>24</b><span>traced to an epic</span></div>
       <div class="stat"><b>7</b><span>Build Force epics</span></div>
       <div class="stat"><b>3</b><span>Builder 1A epics</span></div>
     </div>
@@ -209,7 +209,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
     <div id="epic-charts-wrap" style="display:flex;flex-direction:column;gap:32px;margin-top:16px">
       <p id="m-filter-label" style="margin:0;font-size:12px;color:var(--grey,#64748b)">Showing <b>all bug classes</b></p>
 
-      <!-- Chart 1: bugs by beta -->
+      <!-- Chart 1: bugs found before close -->
       <div>
         <div id="m-chart-beta"></div>
         <div id="m-drawer-beta" style="display:none;margin-top:12px;border:1px solid var(--border,#e2e8f0);border-radius:10px;overflow:hidden">
@@ -282,7 +282,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   </section>
 
   <footer>
-    Workspace 6927027 · Engineering 1000 · Snapshot 26 Aug 2026 · + RES review bugs (yellow outline, class fill) · 20 bugs traced to epic by confirmed linked task.
+    Workspace 6927027 · Engineering 1000 · Snapshot 26 Aug 2026 · + RES review bugs (yellow outline, class fill) · 24 bugs traced to epic by confirmed linked task.
   </footer>
 </div>
 
@@ -1176,11 +1176,7 @@ function stackData(set){
       : `${epicLabel} — ${bugs.length} bug${bugs.length!==1?'s':''}`;
     document.getElementById(titleId).innerHTML = titleLink;
 
-    const CLSC_M = {
-      "Class 3 - Critical":"#7f1d1d","Class 2b - Very High":"#b91c1c",
-      "Class 2a - High":"#c2410c","Class 1 - Moderate":"#1d4ed8",
-      "Class 0 - Low":"#15803d","Warning Bug":"#7c3aed","Unclassified":"#94a3b8"
-    };
+    const CLSC_M = CLSC;
 
     document.getElementById(tbodyId).innerHTML = bugs.length
       ? bugs.sort((a,b)=>(QBS[a.id]||'').localeCompare(QBS[b.id]||'')).map((b,i) => {
