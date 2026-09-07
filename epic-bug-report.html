@@ -203,6 +203,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
           style="font-size:13px;padding:5px 10px;border:1px solid var(--border,#e2e8f0);border-radius:6px;background:#fff;color:var(--navy,#1e293b);cursor:pointer">
           <option value="all">All bugs</option>
           <option value="class23">Class 2 &amp; 3 only (High / Critical)</option>
+          <option value="res">RES only (any class)</option>
         </select>
       </div>
     </div>
@@ -929,14 +930,20 @@ function stackData(set){
     "(PHASE2) Moment End Plate Splice – Rect": ["86d3ccagc"],
   };
   const HIGH_CLS = new Set(["Class 2a - High","Class 2b - Very High","Class 3 - Critical"]);
+  const RES_COHORT = "res-sep-2026";
   let currentFilter = 'all';
+
+  function applyBugClassFilter(bugs, filter) {
+    if (filter === 'class23') return bugs.filter(b => HIGH_CLS.has(b.cls));
+    if (filter === 'res') return bugs.filter(b => b.cohort === RES_COHORT);
+    return bugs;
+  }
 
   // Compute counts per epic per window, optionally filtered
   function epicCount(epicLabel, windowKey, filter) {
     const QBS = window.QBS_I || {};
     const ids = EPIC_BUG_IDS[epicLabel] || [];
-    let bugs = BUGS.filter(b => ids.includes(b.id));
-    if (filter === 'class23') bugs = bugs.filter(b => HIGH_CLS.has(b.cls));
+    let bugs = applyBugClassFilter(BUGS.filter(b => ids.includes(b.id)), filter);
     const epic = EPICS.find(e => e.label === epicLabel);
     if (!epic) return 0;
     if (windowKey === 'beta') {
@@ -1120,7 +1127,9 @@ function stackData(set){
     // Update subtitle with filter info
     const subtitle = filter === 'class23'
       ? 'Showing <b>Class 2 &amp; 3 only</b> (High / Critical bugs)'
-      : 'Showing <b>all bug classes</b>';
+      : filter === 'res'
+        ? 'Showing <b>RES 3rd-party only</b> (any class)'
+        : 'Showing <b>all bug classes</b>';
     const el = document.getElementById('m-filter-label');
     if (el) el.innerHTML = subtitle;
   }
@@ -1142,7 +1151,7 @@ function stackData(set){
 
     const QBS = window.QBS_I || {};
     const ids = EPIC_BUG_IDS[epicLabel] || [];
-    const allBugs = BUGS.filter(b => ids.includes(b.id));
+    const allBugs = applyBugClassFilter(BUGS.filter(b => ids.includes(b.id)), currentFilter);
     const epic = (window._M_EPICS||[]).find(e => e.label === epicLabel);
     let bugs = allBugs;
     if (epic) {
