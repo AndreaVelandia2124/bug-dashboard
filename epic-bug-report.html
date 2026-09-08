@@ -196,7 +196,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   <section class="panel" id="panel-epic-charts">
     <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by delivery milestone</h2></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap">
-      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Yellow outline on a dot = RES-only filter. Click a dot to see that epic’s bugs (RES tickets keep the yellow outline on the class chip).</p>
+      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = closed epic with no bugs at all (shown in every filter). Yellow outline on a dot = RES-only filter. Click a dot to see that epic’s bugs (RES tickets keep the yellow outline on the class chip).</p>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <label style="font-size:13px;font-weight:600;color:var(--navy,#1e293b);white-space:nowrap">Show bugs:</label>
         <select id="bug-filter-select" onchange="window.applyBugFilter(this.value)"
@@ -1104,14 +1104,15 @@ function stackData(set){
         label: e.label,
         calc: EPIC_TO_CALC[e.label]||e.label,
         x, y,
-        resDot: filter === 'res'
+        resDot: filter === 'res' && y > 0
       });
     };
-    // White/hollow = closed epic with zero bugs before close in *All bugs*.
-    // Class 2/3 and RES only omit those zeros so they don't look like empty epics.
+    // Always plot closed epics with zero bugs (hollow), in every dropdown filter.
+    // Skip y=0 when the epic still has other-class bugs — those are not "empty".
     closedEpics.forEach(e => {
+      const yAll = epicCount(e.label, 'beta', 'all');
       const y = epicCount(e.label, 'beta', filter);
-      if (y === 0 && filter !== 'all') return;
+      if (y === 0 && yAll > 0) return;
       push(e, e.close, y);
     });
     EPICS.forEach(e => {
