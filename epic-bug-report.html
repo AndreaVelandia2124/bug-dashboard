@@ -1092,8 +1092,7 @@ function stackData(set){
     });
   }
 
-  // Chart 2/3 still need a beta date on the x-axis for unclosed epics.
-  const betaEpics = EPICS.filter(e => e.beta && e.at_beta !== null);
+  const closedEpics = EPICS.filter(e => e.close);
 
   function chart1Points(filter) {
     const seen = new Set();
@@ -1108,14 +1107,15 @@ function stackData(set){
         resDot: filter === 'res'
       });
     };
-    // Original scatter: every epic that has a beta date (hollow if 0 bugs)
-    betaEpics.forEach(e => {
-      push(e, e.close || e.beta, epicCount(e.label, 'beta', filter));
+    // Closed epics sit on close date (white/hollow if 0 bugs before close)
+    closedEpics.forEach(e => {
+      push(e, e.close, epicCount(e.label, 'beta', filter));
     });
-    // Also include epics that have bugs in this filter but no beta (RES, etc.)
+    // Still-open epics that already have bugs in this filter
     EPICS.forEach(e => {
+      if (e.close) return;
       const y = epicCount(e.label, 'beta', filter);
-      if (y > 0) push(e, e.close || e.beta || firstQbs(e.label, filter), y);
+      if (y > 0) push(e, firstQbs(e.label, filter), y);
     });
     return pts;
   }
@@ -1129,22 +1129,22 @@ function stackData(set){
     );
     const chart2 = makeScatter(
       "New bugs in first 30 days after Epic close",
-      "← Epic close date (reference: beta date used for epics not yet closed)",
-      betaEpics.map(e => ({
+      "Epic close date →",
+      closedEpics.map(e => ({
         label: e.label,
         calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.beta,
+        x: e.close,
         y: epicCount(e.label, '30d', filter) ?? 0
       })),
       "30d"
     );
     const chart3 = makeScatter(
       "New bugs in first 90 days after Epic close",
-      "← Epic close date (reference: beta date used for epics not yet closed)",
-      betaEpics.map(e => ({
+      "Epic close date →",
+      closedEpics.map(e => ({
         label: e.label,
         calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.beta,
+        x: e.close,
         y: epicCount(e.label, '90d', filter) ?? 0
       })),
       "90d"
