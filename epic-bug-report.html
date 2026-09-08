@@ -196,7 +196,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   <section class="panel" id="panel-epic-charts">
     <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by delivery milestone</h2></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap">
-      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed (closed epics at close date; still-open epics at the date their bugs were found). <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Click any dot to see that epic’s bugs.</p>
+      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = epic has no bugs in that window. Yellow outline on a dot = RES-only filter. Click a dot to see that epic’s bugs (RES tickets keep the yellow outline on the class chip).</p>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <label style="font-size:13px;font-weight:600;color:var(--navy,#1e293b);white-space:nowrap">Show bugs:</label>
         <select id="bug-filter-select" onchange="window.applyBugFilter(this.value)"
@@ -208,7 +208,7 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
       </div>
     </div>
     <div id="epic-charts-wrap" style="display:flex;flex-direction:column;gap:32px;margin-top:16px">
-      <p id="m-filter-label" style="margin:0;font-size:12px;color:var(--grey,#64748b)">Showing <b>all bug classes</b></p>
+      <p id="m-filter-label" style="margin:0;font-size:12px;color:var(--grey,#64748b)">Showing <b>all bugs</b> (RES and others)</p>
 
       <!-- Chart 1: bugs found before close -->
       <div>
@@ -969,7 +969,7 @@ function stackData(set){
 
   // Generic scatter + trend line builder
   function makeScatter(title, xLabel, points, windowKey) {
-    const W=900, H=400, PL=50, PR=96, PT=40, PB=64;
+    const W=900, H=400, PL=50, PR=24, PT=40, PB=64;
     const plotW = W-PL-PR, plotH = H-PT-PB;
 
     const validPts = points.filter(p => p.x && p.y !== null);
@@ -1043,20 +1043,19 @@ function stackData(set){
               stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>`;
     }
 
-    // Dots — filled for y>0, hollow for y=0. Open and closed epics both plot on the date axis.
+    // Dots — filled for y>0, hollow for y=0. Yellow stroke only in the RES-only filter.
     const seenXY = {};
     const hitDots = [];
     validPts.forEach(p => {
       const key = p.x + '|' + p.y;
       const slot = seenXY[key] || 0;
       seenXY[key] = slot + 1;
-      const cx = Math.max(PL+8, px(new Date(p.x).getTime()) - slot * 16);
+      const cx = Math.max(PL+8, px(new Date(p.x).getTime()) - slot * 12);
       const cy = py(p.y);
       hitDots.push({cx, cy, W, H, label: p.label, calc: p.calc||'', windowKey});
-      const tip = `${p.label}\n${p.x}: ${p.y} bug${p.y!==1?'s':''}${p.open?' · still open':''}`;
-      const name = p.name || '';
-      const stroke = p.open ? '#F5D76E' : '#fff';
-      const sw = p.open ? '2.5' : '1.5';
+      const tip = `${p.label}\n${p.x}: ${p.y} bug${p.y!==1?'s':''}`;
+      const stroke = p.resDot ? '#F5D76E' : '#fff';
+      const sw = p.resDot ? '2.5' : '1.5';
       if (p.y === 0) {
         svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"
           fill="#fff" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.6"
@@ -1065,9 +1064,6 @@ function stackData(set){
         svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"
           fill="#3b82f6" fill-opacity="0.8" stroke="${stroke}" stroke-width="${sw}"
           style="cursor:pointer"><title>${escXml(tip)}</title></circle>`;
-      }
-      if (name && p.y > 0) {
-        svg += `<text x="${(cx+8).toFixed(1)}" y="${(cy-8).toFixed(1)}" font-size="9" font-weight="600" fill="#334155">${escXml(name)}</text>`;
       }
     });
     if (!validPts.some(p => p.y > 0)) {
@@ -1099,18 +1095,36 @@ function stackData(set){
   // Chart 2/3 still need a beta date on the x-axis for unclosed epics.
   const betaEpics = EPICS.filter(e => e.beta && e.at_beta !== null);
 
+  function chart1Points(filter) {
+    const seen = new Set();
+    const pts = [];
+    const push = (e, x, y) => {
+      if (!x || seen.has(e.label)) return;
+      seen.add(e.label);
+      pts.push({
+        label: e.label,
+        calc: EPIC_TO_CALC[e.label]||e.label,
+        x, y,
+        resDot: filter === 'res'
+      });
+    };
+    // Original scatter: every epic that has a beta date (hollow if 0 bugs)
+    betaEpics.forEach(e => {
+      push(e, e.close || e.beta, epicCount(e.label, 'beta', filter));
+    });
+    // Also include epics that have bugs in this filter but no beta (RES, etc.)
+    EPICS.forEach(e => {
+      const y = epicCount(e.label, 'beta', filter);
+      if (y > 0) push(e, e.close || e.beta || firstQbs(e.label, filter), y);
+    });
+    return pts;
+  }
+
   function buildCharts(filter) {
     const chart1 = makeScatter(
       "Bugs found before close",
       "Epic close date →",
-      EPICS.map(e => ({
-        label: e.label,
-        name: e.epic,
-        calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.close || firstQbs(e.label, filter),
-        y: epicCount(e.label, 'beta', filter),
-        open: !e.close
-      })).filter(p => p.y > 0 && p.x),
+      chart1Points(filter),
       "beta"
     );
     const chart2 = makeScatter(
@@ -1143,7 +1157,7 @@ function stackData(set){
       ? 'Showing <b>Class 2 &amp; 3 only</b> (High / Critical bugs)'
       : filter === 'res'
         ? 'Showing <b>RES 3rd-party only</b> (any class)'
-        : 'Showing <b>all bug classes</b>';
+        : 'Showing <b>all bugs</b> (RES and others)';
     const el = document.getElementById('m-filter-label');
     if (el) el.innerHTML = subtitle;
   }
