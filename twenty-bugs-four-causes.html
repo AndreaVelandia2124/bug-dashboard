@@ -1,0 +1,520 @@
+<title>Twenty Bugs, Four Causes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+:root{
+  --ground:#eef1f2; --surface:#fbfcfc; --surface-2:#f4f7f8;
+  --ink:#0f1c24; --ink-2:#31454f; --muted:#5b7280; --faint:#8b9ea8;
+  --rule:#d2dbdf; --rule-strong:#b4c2c8;
+  --accent:#17506b; --accent-soft:#e3edf1;
+  --bar:#3f6474;
+  --sev-ok:#0b7fa3; --sev-warn:#a9791a; --sev-crit:#a3202c; --sev-pend:#8b9ea8;
+  --shadow:0 1px 2px rgba(15,28,36,.06), 0 6px 16px -8px rgba(15,28,36,.12);
+  --step--1:.813rem; --step-0:1rem; --step-1:1.25rem; --step-2:1.6rem; --step-3:2.2rem; --step-4:3.1rem;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0c1418; --surface:#131f25; --surface-2:#182731;
+    --ink:#e4ebee; --ink-2:#c2d0d7; --muted:#8aa0ab; --faint:#6c8290;
+    --rule:#22323a; --rule-strong:#33474f;
+    --accent:#63b2cf; --accent-soft:#17303c;
+    --bar:#7fa2b3;
+    --sev-ok:#35a3c4; --sev-warn:#ae8524; --sev-crit:#e0666f; --sev-pend:#6c8290;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 20px -10px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0c1418; --surface:#131f25; --surface-2:#182731;
+  --ink:#e4ebee; --ink-2:#c2d0d7; --muted:#8aa0ab; --faint:#6c8290;
+  --rule:#22323a; --rule-strong:#33474f;
+  --accent:#63b2cf; --accent-soft:#17303c;
+  --bar:#7fa2b3;
+  --sev-ok:#35a3c4; --sev-warn:#ae8524; --sev-crit:#e0666f; --sev-pend:#6c8290;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 20px -10px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Serif",Georgia,serif; font-size:var(--step-0); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:clamp(20px,4vw,56px) clamp(16px,4vw,40px) 80px}
+h1,h2,h3,.disp{font-family:"IBM Plex Sans Condensed",Arial Narrow,sans-serif; text-wrap:balance; line-height:1.1}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:2px}
+a:focus-visible,.row:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+
+/* header */
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+header{border-bottom:2px solid var(--rule-strong); padding-bottom:28px; margin-bottom:36px}
+h1{font-size:var(--step-4); font-weight:700; letter-spacing:-.015em; margin:.35em 0 .3em}
+.lede{font-size:var(--step-1); color:var(--ink-2); max-width:62ch; margin:0}
+.meta{display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:22px; font-size:var(--step--1); color:var(--muted)}
+.meta b{font-family:"IBM Plex Mono",monospace; color:var(--ink-2); font-weight:500}
+
+/* figures */
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin:0 0 44px}
+.fig{background:var(--surface); padding:18px 20px 16px}
+.fig .n{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:var(--step-3); font-weight:700; line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.fig .k{font-size:var(--step--1); color:var(--muted); margin-top:6px; display:block; line-height:1.35}
+.fig.hot .n{color:var(--sev-crit)}
+
+section{margin-bottom:52px}
+h2{font-size:var(--step-2); font-weight:600; letter-spacing:-.01em; margin:0 0 6px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+h2 .count{font-family:"IBM Plex Mono",monospace; font-size:.75rem; font-weight:500; color:var(--muted); letter-spacing:.04em;
+  border:1px solid var(--rule-strong); padding:2px 7px; border-radius:2px; white-space:nowrap}
+.sub{color:var(--muted); font-size:var(--step--1); max-width:70ch; margin:0 0 22px}
+.note{font-size:var(--step--1); color:var(--muted); font-style:italic; max-width:70ch}
+
+/* chart shell */
+.chart{background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow); padding:22px 24px}
+.ctitle{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:var(--step-1); font-weight:600; margin:0 0 3px}
+.cnote{font-size:.78rem; color:var(--muted); margin:0 0 20px}
+
+/* generic bar rows */
+.bars{display:flex; flex-direction:column; gap:2px}
+.brow{display:grid; grid-template-columns:minmax(120px,auto) 1fr; gap:16px; align-items:center; padding:5px 0; position:relative}
+.blab{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:.94rem; font-weight:500; text-align:right; color:var(--ink-2)}
+.btrack{display:flex; align-items:center; gap:9px; min-width:0}
+.bfill{height:13px; background:var(--bar); border-radius:0 3px 3px 0; min-width:2px}
+.bval{font-family:"IBM Plex Mono",monospace; font-size:.8rem; font-weight:500; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+.bsplit{font-size:.76rem; color:var(--faint); margin-left:4px}
+
+/* family list */
+.fams{display:flex; flex-direction:column; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:26px}
+.fam{background:var(--surface); padding:18px 22px; display:grid; grid-template-columns:auto 1fr; gap:0 18px}
+.fam .tally{font-family:"IBM Plex Mono",monospace; font-size:var(--step-2); font-weight:600; color:var(--accent); line-height:1; padding-top:2px; font-variant-numeric:tabular-nums}
+.fam h3{font-size:var(--step-1); font-weight:600; margin:0 0 4px}
+.fam p{margin:0 0 10px; color:var(--ink-2); font-size:.94rem; max-width:64ch}
+.mechs{display:flex; flex-wrap:wrap; gap:5px; grid-column:2}
+.mech{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink-2); background:var(--surface-2);
+  border:1px solid var(--rule); padding:2px 7px; border-radius:2px; white-space:nowrap}
+.mech em{font-style:normal; color:var(--muted)}
+
+/* latency plot */
+.lat{display:flex; flex-direction:column; gap:0; margin-top:4px}
+.lrow{display:grid; grid-template-columns:78px 1fr 54px; gap:12px; align-items:center; height:24px; position:relative;
+  text-decoration:none; color:inherit; border-radius:2px}
+.lrow:hover{background:var(--surface-2)}
+.lid{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--muted); text-align:right; letter-spacing:-.01em}
+.lrow:hover .lid{color:var(--accent)}
+.ltrack{position:relative; height:100%; display:flex; align-items:center}
+.lstem{position:absolute; left:0; height:1px; background:var(--rule-strong)}
+.ldot{position:absolute; width:11px; height:11px; border-radius:50%; transform:translateX(-50%);
+  box-shadow:0 0 0 2px var(--surface)}
+.lrow:hover .ldot{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent-soft)}
+.ldot.s0,.ldot.s1{background:var(--sev-ok)}
+.ldot.s2b{background:var(--sev-warn)}
+.ldot.s3{background:var(--sev-crit)}
+.ldot.sp{background:var(--surface); border:2.5px dashed var(--sev-pend); width:13px; height:13px}
+.lname{position:absolute; font-size:.8rem; color:var(--ink-2); white-space:nowrap; transform:translateX(14px)}
+.lname.flip{transform:translateX(-14px) translateX(-100%)}
+.lyr{font-family:"IBM Plex Mono",monospace; font-size:.74rem; font-weight:500; color:var(--ink-2);
+  text-align:right; font-variant-numeric:tabular-nums}
+.axis{display:grid; grid-template-columns:78px 1fr 54px; gap:12px; margin-top:10px}
+.aticks{position:relative; height:20px; border-top:1px solid var(--rule-strong)}
+.atick{position:absolute; top:0; font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--faint);
+  transform:translateX(-50%); padding-top:4px}
+.atick::before{content:""; position:absolute; top:0; left:50%; width:1px; height:4px; background:var(--rule-strong)}
+.grid-v{position:absolute; top:0; bottom:0; width:1px; background:var(--rule); opacity:.7}
+
+/* per-bug matrix */
+.mxfam{margin-bottom:22px}
+.mxfam:last-child{margin-bottom:0}
+.mxhead{display:flex; align-items:baseline; gap:10px; padding-bottom:7px; margin-bottom:12px;
+  border-bottom:1.5px solid var(--rule-strong)}
+.mxhead h4{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:1.08rem; font-weight:600; margin:0}
+.mxhead .t{font-family:"IBM Plex Mono",monospace; font-size:.74rem; color:var(--accent); font-weight:500}
+.mxhead .b{font-size:.8rem; color:var(--muted); margin-left:auto; text-align:right; max-width:44ch}
+.mxmech{display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:14px; padding:8px 0; align-items:start}
+.mxmech+.mxmech{border-top:1px dotted var(--rule)}
+.mxml{font-size:.82rem; color:var(--muted); line-height:1.4; padding-top:3px}
+.mxtiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(178px,1fr)); gap:6px}
+.tile{display:grid; grid-template-columns:auto 1fr; gap:0 8px; align-items:center;
+  background:var(--surface-2); border:1px solid var(--rule); border-left:3px solid var(--sev-pend);
+  padding:7px 10px; text-decoration:none; color:inherit; border-radius:2px}
+.tile:hover{border-color:var(--rule-strong); background:var(--surface)}
+.tile.s0,.tile.s1{border-left-color:var(--sev-ok)}
+.tile.s2b{border-left-color:var(--sev-warn)}
+.tile.s3{border-left-color:var(--sev-crit)}
+.tile.sp{border-left-style:dashed}
+.tile .ti{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--accent); grid-column:1/-1}
+.tile .tn{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:.84rem; font-weight:500;
+  grid-column:1/-1; line-height:1.25; color:var(--ink)}
+@media (max-width:640px){.mxmech{grid-template-columns:1fr; gap:6px} .mxhead .b{display:none}}
+
+/* legend */
+.legend{display:flex; flex-wrap:wrap; gap:8px 20px; margin:0 0 20px; font-size:.78rem; color:var(--ink-2)}
+.lg{display:flex; align-items:center; gap:7px}
+.sw{width:11px; height:11px; border-radius:50%; flex:none}
+.sw.s0{background:var(--sev-ok)} .sw.s2b{background:var(--sev-warn)} .sw.s3{background:var(--sev-crit)}
+.sw.sp{background:transparent; border:2.5px dashed var(--sev-pend)}
+
+/* two-up */
+.duo{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+
+/* table */
+.tscroll{overflow-x:auto; border:1px solid var(--rule); background:var(--surface); box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:820px; font-size:.88rem}
+thead th{font-family:"IBM Plex Sans Condensed",sans-serif; font-size:.74rem; text-transform:uppercase; letter-spacing:.09em;
+  color:var(--muted); text-align:left; font-weight:600; padding:11px 14px; border-bottom:1.5px solid var(--rule-strong);
+  background:var(--surface-2); position:sticky; top:0}
+tbody td{padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+td.tk{white-space:nowrap}
+td.tk a{font-family:"IBM Plex Mono",monospace; font-size:.78rem}
+td.nm{font-family:"IBM Plex Sans Condensed",sans-serif; font-weight:500; min-width:190px}
+td.rc{color:var(--ink-2); min-width:300px}
+td.rc code{font-family:"IBM Plex Mono",monospace; font-size:.8em; background:var(--surface-2); padding:1px 4px; border-radius:2px}
+.chip{display:inline-flex; align-items:center; gap:5px; font-family:"IBM Plex Mono",monospace; font-size:.72rem;
+  font-weight:500; white-space:nowrap; padding:2px 7px; border-radius:2px; border:1px solid}
+.chip .sw{width:8px; height:8px}
+.chip.c0,.chip.c1{color:var(--sev-ok); border-color:color-mix(in srgb,var(--sev-ok) 40%,transparent)}
+.chip.c2b{color:var(--sev-warn); border-color:color-mix(in srgb,var(--sev-warn) 45%,transparent)}
+.chip.c3{color:var(--sev-crit); border-color:color-mix(in srgb,var(--sev-crit) 45%,transparent)}
+.chip.cp{color:var(--muted); border-color:var(--rule-strong); border-style:dashed}
+
+/* actions */
+.acts{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule)}
+.act{background:var(--surface); padding:20px 22px}
+.act .tag{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--accent); display:block; margin-bottom:8px}
+.act h3{font-size:1.06rem; font-weight:600; margin:0 0 7px}
+.act p{margin:0; font-size:.9rem; color:var(--ink-2)}
+.act code{font-family:"IBM Plex Mono",monospace; font-size:.82em; background:var(--surface-2); padding:1px 4px; border-radius:2px}
+
+footer{border-top:1px solid var(--rule); padding-top:20px; margin-top:56px; font-size:var(--step--1); color:var(--muted); max-width:76ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+@media (max-width:640px){
+  .lrow{grid-template-columns:66px 1fr 46px} .lname{display:none} .axis{grid-template-columns:66px 1fr 46px}
+  .brow{grid-template-columns:1fr; gap:4px} .blab{text-align:left}
+  .fam{grid-template-columns:1fr} .mechs{grid-column:1}
+}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">ClearCalcs · Maintenance · Bugs · Five Whys pass</span>
+  <h1>Twenty Bugs, Four Causes</h1>
+  <p class="lede">Root-cause analysis across every bug ticket that received a Five Whys pass. The twenty defects reduce to four structural mechanisms — and none of the four is a mistake in a formula.</p>
+  <div class="meta">
+    <span>Analyses posted <b>20</b></span>
+    <span>List <b>Bugs · 901615238514</b></span>
+    <span>Templates touched <b>24</b></span>
+    <span>Regions <b>US · CA · AU/NZ</b></span>
+  </div>
+</header>
+
+<div class="figs">
+  <div class="fig"><span class="n">20</span><span class="k">tickets with a root-cause analysis</span></div>
+  <div class="fig"><span class="n">13</span><span class="k">distinct mechanisms, in 4 families</span></div>
+  <div class="fig hot"><span class="n">8</span><span class="k">still need an engineering call before the class can be set</span></div>
+  <div class="fig hot"><span class="n">4</span><span class="k">of those could resolve to Class 3</span></div>
+  <div class="fig"><span class="n">5.9<span style="font-size:.5em;font-weight:500"> yr</span></span><span class="k">longest time from introduction to detection</span></div>
+</div>
+
+<section>
+  <h2>Root cause, ticket by ticket <span class="count">20 tickets · 13 mechanisms · 4 families</span></h2>
+  <p class="sub">Every ticket is assigned one primary mechanism, and every mechanism rolls up into one of four families. Families are ordered by frequency — that order is the finding: over half of these defects are something new that failed to reach everywhere it had to, and only two of twenty are the isolated one-template mistake that triage implicitly assumes.</p>
+
+  <div class="chart">
+    <p class="ctitle">Root cause of every ticket</p>
+    <p class="cnote">One tile per ticket, placed under its mechanism and grouped by family · marker shows bug class · n = 20</p>
+    <div class="legend">
+      <span class="lg"><span class="sw s0"></span> Class 0–1 · no incorrect results</span>
+      <span class="lg"><span class="sw s2b"></span> Class 2b · over-conservative</span>
+      <span class="lg"><span class="sw s3"></span> Class 3 · unconservative</span>
+      <span class="lg"><span class="sw sp"></span> Pending determination</span>
+    </div>
+    <div id="mx"></div>
+  </div>
+
+  <div class="fams">
+    <div class="fam">
+      <span class="tally">9</span>
+      <div>
+        <h3>Incomplete propagation</h3>
+        <p>Something new was added — a preset, a demand axis, an input mode, a catalog row — and it did not reach every place that had to consume it. Propagation is a manual walk with no completeness check, so what is left out is silent.</p>
+      </div>
+      <div class="mechs">
+        <span class="mech">demand axis not propagated <em>×3</em></span>
+        <span class="mech">preset absent from a gate <em>×2</em></span>
+        <span class="mech">unverified definition domain <em>×2</em></span>
+        <span class="mech">selectable ≠ validated <em>×1</em></span>
+        <span class="mech">duplicated label string <em>×1</em></span>
+      </div>
+    </div>
+    <div class="fam">
+      <span class="tally">6</span>
+      <div>
+        <h3>Sibling-template port</h3>
+        <p>A template built by adapting another carries the source's premises and defects. The port's fidelity is not evidence of correctness — it is exactly what hides the problem, because the validation gold standard becomes the copied template rather than the design code.</p>
+      </div>
+      <div class="mechs">
+        <span class="mech">defect ported from a sibling <em>×2</em></span>
+        <span class="mech">member category wired by hand <em>×2</em></span>
+        <span class="mech">half-adapted duplication <em>×1</em></span>
+        <span class="mech">model ≠ physical joint <em>×1</em></span>
+      </div>
+    </div>
+    <div class="fam">
+      <span class="tally">3</span>
+      <div>
+        <h3>Unwritten assumption</h3>
+        <p>An assumption the equations rely on was never written as a check. Because the formulas stay arithmetically evaluable when it breaks, the invalid configuration degrades silently into a plausible number instead of failing.</p>
+      </div>
+      <div class="mechs">
+        <span class="mech">constructability not modelled <em>×2</em></span>
+        <span class="mech">drawing geometry is analysis input <em>×1</em></span>
+      </div>
+    </div>
+    <div class="fam">
+      <span class="tally">2</span>
+      <div>
+        <h3>Local defect</h3>
+        <p>Confined to one template, with no structural pattern behind it. Worth noting mainly because it is the smallest family: only two of twenty tickets are the isolated mistake that bug triage implicitly assumes.</p>
+      </div>
+      <div class="mechs">
+        <span class="mech">mixed sign domains <em>×1</em></span>
+        <span class="mech">incomplete fix, orphaned UI <em>×1</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Time from introduction to detection <span class="count">19 of 20 dated</span></h2>
+  <p class="sub">The pattern is the point: the longest-lived defects are the ones that never produce an alarming number. An over-conservative result oversizes a member and nobody files a ticket, so it accumulates years — while the one defect caught the same day it shipped was caught by an automated reviewer, not by testing.</p>
+
+  <div class="chart">
+    <p class="ctitle">Years between the introducing commit and the ticket</p>
+    <p class="cnote">Coloured by bug class · hollow marker = class not yet determined</p>
+    <div class="legend">
+      <span class="lg"><span class="sw s0"></span> Class 0–1 · no incorrect results</span>
+      <span class="lg"><span class="sw s2b"></span> Class 2b · incorrect, over-conservative</span>
+      <span class="lg"><span class="sw s3"></span> Class 3 · incorrect, unconservative</span>
+      <span class="lg"><span class="sw sp"></span> Pending determination</span>
+    </div>
+
+    <div class="lat" id="lat"></div>
+
+    <div class="axis">
+      <div></div>
+      <div class="aticks" id="ax"></div>
+      <div></div>
+    </div>
+    <p class="note" style="margin-top:14px">Excluded: <span class="mono">86d4a7awc</span> (Steel and Tube HST flute radii) — no introducing commit is recorded on the ticket, only the fixing PR.</p>
+  </div>
+</section>
+
+<section>
+  <h2>How they fail, and who found them</h2>
+  <p class="sub">Half of these defects are an absence — a check that is missing, an output that never renders, a demand that never arrives. An absence produces no wrong number, which is why numerical-correctness testing cannot see it and why customers find so many.</p>
+  <div class="duo">
+    <div class="chart">
+      <p class="ctitle">Failure mode</p>
+      <p class="cnote">What the user actually experiences · n = 20</p>
+      <div class="bars">
+        <div class="brow"><span class="blab">Missing check or output</span>
+          <div class="btrack"><div class="bfill" style="width:100%"></div><span class="bval">10</span></div></div>
+        <div class="brow"><span class="blab">Wrong value produced</span>
+          <div class="btrack"><div class="bfill" style="width:60%"></div><span class="bval">6</span></div></div>
+        <div class="brow"><span class="blab">Sheet errors or blocks</span>
+          <div class="btrack"><div class="bfill" style="width:40%"></div><span class="bval">4</span></div></div>
+      </div>
+    </div>
+    <div class="chart">
+      <p class="ctitle">Detection channel</p>
+      <p class="cnote">Who first surfaced the defect · n = 20</p>
+      <div class="bars">
+        <div class="brow"><span class="blab">Internal engineering</span>
+          <div class="btrack"><div class="bfill" style="width:100%"></div><span class="bval">11</span></div></div>
+        <div class="brow"><span class="blab">Customer report</span>
+          <div class="btrack"><div class="bfill" style="width:63.6%"></div><span class="bval">7</span></div></div>
+        <div class="brow"><span class="blab">Automated PR review</span>
+          <div class="btrack"><div class="bfill" style="width:9.1%"></div><span class="bval">1</span></div></div>
+        <div class="brow"><span class="blab">External review</span>
+          <div class="btrack"><div class="bfill" style="width:9.1%"></div><span class="bval">1</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Class distribution <span class="count">8 unresolved</span></h2>
+  <p class="sub">Eight tickets carry no class yet because the sign of the error has not been determined — and in four of them the plausible range reaches Class 3. Those four are the priority: the difference between over-conservative and unconservative is not a matter of opinion, it is measurable with one hand calculation.</p>
+  <div class="chart">
+    <p class="ctitle">Tickets by bug class</p>
+    <p class="cnote">Class per the analysis posted on each ticket · n = 20</p>
+    <div class="bars">
+      <div class="brow"><span class="blab">Pending determination</span>
+        <div class="btrack"><div class="bfill" style="width:100%;background:var(--sev-pend)"></div><span class="bval">8</span><span class="bsplit">4 could be Class 3</span></div></div>
+      <div class="brow"><span class="blab">Class 1</span>
+        <div class="btrack"><div class="bfill" style="width:75%;background:var(--sev-ok)"></div><span class="bval">6</span><span class="bsplit">error, results correct</span></div></div>
+      <div class="brow"><span class="blab">Class 0</span>
+        <div class="btrack"><div class="bfill" style="width:25%;background:var(--sev-ok)"></div><span class="bval">2</span><span class="bsplit">minor</span></div></div>
+      <div class="brow"><span class="blab">Class 2b</span>
+        <div class="btrack"><div class="bfill" style="width:25%;background:var(--sev-warn)"></div><span class="bval">2</span><span class="bsplit">wrong, over-conservative</span></div></div>
+      <div class="brow"><span class="blab">Class 3</span>
+        <div class="btrack"><div class="bfill" style="width:25%;background:var(--sev-crit)"></div><span class="bval">2</span><span class="bsplit">1 confirmed, 1 recommended</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The inventory <span class="count">20 tickets</span></h2>
+  <p class="sub">Root cause as stated in the Five Whys comment posted on each ticket. Ticket IDs link to ClickUp.</p>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Ticket</th><th>Calculator / defect</th><th>Root cause</th><th>Class</th><th>Family</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>What follows from this</h2>
+  <p class="sub">Four measures, each covering a whole family rather than one ticket. Every one is mechanical — no engineering judgement needed to run it.</p>
+  <div class="acts">
+    <div class="act">
+      <span class="tag">covers 9 tickets</span>
+      <h3>Propagation matrix as a PR artefact</h3>
+      <p>Adding a preset, a load axis or an input mode must ship with the matrix of every gate, limit state and calculation path that consumes it, each marked <em>reaches / not applicable + reason</em>. Turns a silent manual walk into something auditable.</p>
+    </div>
+    <div class="act">
+      <span class="tag">covers 9 tickets</span>
+      <h3>Static reachability and identity lints</h3>
+      <p>Three rules with no judgement in them: a visible widget may only reference visible widgets; a preset value present in some gates of a field but absent from others is a warning; a check's conditions must evaluate the widget's own <code>referenceId</code>.</p>
+    </div>
+    <div class="act">
+      <span class="tag">covers 6 tickets</span>
+      <h3>Never validate a port against its source</h3>
+      <p>A template adapted from a sibling must be validated against the design code and an independent hand calc. The source's numbers agreeing proves only that the defect came along. State which of the source's premises still hold.</p>
+    </div>
+    <div class="act">
+      <span class="tag">covers 5 tickets</span>
+      <h3>Fixtures that break the defaults</h3>
+      <p>Give same-kind inputs deliberately unequal values (<code>w_s ≠ w_fp</code>), make project-default groups differ, test the minimum of every count, and cross every optional feature with the others. Shared defaults hide a whole defect class.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Compiled from the Five Whys analyses posted to the ClearCalcs <b>Bugs</b> list (Maintenance folder, Engineering 1000 space). Every root cause, introduction date and class shown here is drawn from the ticket it belongs to; classes marked pending are stated as pending on the ticket itself and are not inferred. Analyses are machine-generated and flagged for engineering review before any ticket is closed.
+</footer>
+</div>
+
+<script>
+const T=[
+ {id:"86d45xvec",mech:"category-wiring",n:"Roof Tie — deflection limits",yr:5.9,intro:"2020-10-15",cls:"2b",fam:"Sibling-template port",
+  rc:"Member category is not a declared property — the roof/floor group is replicated by hand as a suffix. Cloned from a floor beam calculator and inherited all three <code>_floor</code> limits."},
+ {id:"86d473cad",mech:"orphaned-ui",n:"Steel Beam ASD — companion live load",yr:4.8,intro:"2021-11-05",cls:"1",fam:"Local defect",
+  rc:"A correct fix removed the calculation route but left the <code>LLR</code> control feeding it. The widget is semantically dead: ASD project defaults define no <code>L</code> key, so the solver branch never runs."},
+ {id:"86d4a6pqh",mech:"selectable-not-validated",n:"Steel Lintel — 150×150×10 EA",yr:4.6,intro:"2022-02-10",cls:"p",fam:"Incomplete propagation",
+  rc:"Selectable and validated are independent sets. The full EA catalog was wired to the L-section remote having tested only a handful of rows; a row inherited from an earlier consumer breaks it."},
+ {id:"86d4a6d3p",mech:"duplicated-string",n:"Wind ASCE 7-22 — load case labels",yr:2.6,intro:"2024-02-01",cls:"0",fam:"Incomplete propagation",
+  rc:"Load case names are duplicated as literal strings with no single source of truth. The 7-16→7-22 rename reached the selector but not the export widget, whose labels only surface when linking sheet to sheet."},
+ {id:"86d45xvrf",mech:"category-wiring",n:"Steel Beam ASD — roof presets",yr:1.8,intro:"2024-11-29",cls:"2b",fam:"Sibling-template port",
+  rc:"Partial preset override plus a base default biased to floor. One omitted line makes four roof presets silently inherit the stricter floor short-term limit."},
+ {id:"86d46hp86",mech:"demand-axis",n:"HSS–HSS Moment — built-up T",yr:1.5,intro:"2025-02-28",cls:"p",fam:"Incomplete propagation",
+  rc:"Load path mechanics is embedded per template rather than specified per region. The US family models seat plate and stiffener separately; the combined tee's force–moment interaction never reaches the column checks."},
+ {id:"86d49xmk0",mech:"ported-defect",n:"HSS–WF Moment — seat weld",yr:1.5,intro:"2025-03-13",cls:"3",fam:"Sibling-template port",
+  rc:"A simple-seat weld model (E&amp;S Eq. 2, shear only) was ported into a moment connection. The moment-induced flange force never reaches the weld demand, so utilisation is flat at 0.63 while the true value hits 1.23."},
+ {id:"86d46ghed",mech:"constructability",n:"HSS–HSS Shear — matched width",yr:1.3,intro:"2025-06-03",cls:"p",fam:"Unwritten assumption",
+  rc:"The typology's premise — column wider than beam, so there is face to weld the exterior plate to — lives in the derivation, not in a check. Equal widths stay arithmetically evaluable and degrade silently."},
+ {id:"86d46hp73",mech:"constructability",n:"End plate — bolt gage",yr:1.0,intro:"2025-08-22",cls:"1",fam:"Unwritten assumption",
+  rc:"The gage is bounded by both connected members but only the beam side was written. Column-side wrench clearance is implicit in the Side Angles derivation, so a half-validated input looked validated."},
+ {id:"86d46hp6h",mech:"half-adapted",n:"HSS–HSS Shear — vertical edge distance",yr:1.0,intro:"2025-09-19",cls:"0",fam:"Sibling-template port",
+  rc:"Nothing binds a check widget's identity to the operand its conditions evaluate. <code>a_sa_v</code> computes the vertical distance but both checks test <code>a_sa</code>, inherited from the duplicated source."},
+ {id:"86d4730hy",mech:"preset-gate",n:"HSS Truss CSA — punching shear",yr:0.9,intro:"2025-10-24",cls:"3",fam:"Incomplete propagation",
+  rc:"A preset introduced <code>RKC</code> one day after the widget's gate was written enumerating <code>SKC</code>. The limit state is unreachable, and a missing check produces no symptom at all."},
+ {id:"86d46hnea",mech:"definition-domain",n:"HSS Truss — invisible widget refs",yr:0.6,intro:"2026-01-15",cls:"1",fam:"Incomplete propagation",
+  rc:"Visibility coherence is not a verifiable invariant. Across four crossed input dimensions, one provider gate ended up stricter than its consumers' — 30+ broken references in a single cell."},
+ {id:"86d43458d",mech:"demand-axis",n:"ASCE 7-22 — tornado pressures",yr:0.5,intro:"2026-02-20",cls:"p",fam:"Incomplete propagation",
+  rc:"Ch. 30 and Ch. 32 are duplicated paths each re-reading the inputs. The new individual-areas mode was wired only to ordinary wind; missing tornado output is indistinguishable from tornado not requested."},
+ {id:"86d46gt4w",mech:"definition-domain",n:"WF to HSS — L_y_p buckling length",yr:0.5,intro:"2026-02-27",cls:"1",fam:"Incomplete propagation",
+  rc:"A code clause was transcribed without its applicability condition. <code>max(a_p, s_bolth)</code> assumes multiple bolt rows, but <code>s_bolth</code> does not exist at one row and nothing checks the domain."},
+ {id:"86d43hw6a",mech:"model-vs-joint",n:"Forked End — weld type",yr:0.5,intro:"2026-03-18",cls:"p",fam:"Sibling-template port",
+  rc:"Joint type is not a declared property, so the family's default fillet model was reused for what is physically a PJP/CJP groove. Tests live inside the model and cannot question it."},
+ {id:"86d47jt3r",mech:"sign-domain",n:"HSS Splice Column — minimum Ev",yr:0.4,intro:"2026-04-22",cls:"1",fam:"Local defect",
+  rc:"The engine has no notion of sign domain. <code>abs()</code> was applied to the code minimum but not to the input magnitudes, so a compliant −2 kip fails against a +2 kip minimum."},
+ {id:"86d45m0mn",mech:"demand-axis",n:"CA Extended — inclined fillet weld",yr:0.3,intro:"2026-05-15",cls:"p",fam:"Incomplete propagation",
+  rc:"Axial load was propagated limit state by limit state; the weld path kept Table 3-27 at 0° because including it meant changing method, not extending a formula. The gap shipped behind a beta note and was then ported to three siblings."},
+ {id:"86d44eqby",mech:"preset-gate",n:"HSS–HSS Shear — Shuriken clearance",yr:0.1,intro:"2026-07-21",cls:"1",fam:"Incomplete propagation",
+  rc:"Diagram and check are independent subsystems describing the same geometry. The Hidden preset was never added to the clearance gate, and automated validation does not render — a customer saw it in an image."},
+ {id:"86d49z4ut",mech:"ported-defect",n:"HSS–HSS Moment — stiffener weld size",yr:0.0,intro:"2026-09-07",cls:"p",fam:"Sibling-template port",
+  rc:"Ported from an internally inconsistent CSA sibling. <code>w_s</code> and <code>w_fp</code> share a ¼″ default, so the wrong variable was numerically invisible to every fixture."}
+];
+const EX={id:"86d4a7awc",mech:"drawing-as-input",n:"Cold-Formed Steel AU — HST flute radii",yr:null,intro:"not recorded",cls:"p",fam:"Unwritten assumption",
+  rc:"Shared-table drawing geometry is analysis input — the mesher consumes it — but is validated as presentation. A placeholder radius on 19 HST rows under-reported utilisation by 2.14%."};
+
+const MAX=6, U="https://app.clickup.com/t/6927027/";
+const FAMS=[
+ {name:"Incomplete propagation", n:9,
+  blurb:"Something new was added and did not reach every place that had to consume it.",
+  mechs:[["demand-axis","A new demand axis never reaches a limit state"],
+         ["preset-gate","A new preset is absent from an existing gate"],
+         ["definition-domain","A consumer is evaluated outside its provider's domain"],
+         ["selectable-not-validated","Every catalog row is selectable, only some are validated"],
+         ["duplicated-string","A renamed label survives in a duplicated copy"]]},
+ {name:"Sibling-template port", n:6,
+  blurb:"A template adapted from another carries the source's premises and defects.",
+  mechs:[["ported-defect","A latent defect travels with the ported mechanics"],
+         ["category-wiring","Member category replicated by hand as a suffix"],
+         ["half-adapted","A duplicated widget keeps the source's operand"],
+         ["model-vs-joint","The calculation model does not match the physical joint"]]},
+ {name:"Unwritten assumption", n:3,
+  blurb:"An assumption the equations rely on was never written as a check.",
+  mechs:[["constructability","Erection and wrench clearances are not a limit state"],
+         ["drawing-as-input","Drawing geometry is analysis input, validated as presentation"]]},
+ {name:"Local defect", n:2,
+  blurb:"Confined to one template, with no structural pattern behind it.",
+  mechs:[["sign-domain","Signed and unsigned quantities compared directly"],
+         ["orphaned-ui","A fix removed the logic but left the control"]]}
+];
+const CN={"0":"Class 0","1":"Class 1","2b":"Class 2b","3":"Class 3","p":"Pending"};
+const CC={"0":"c0","1":"c1","2b":"c2b","3":"c3","p":"cp"};
+const DC={"0":"s0","1":"s1","2b":"s2b","3":"s3","p":"sp"};
+
+const ALL=T.concat([EX]);
+document.getElementById("mx").innerHTML=FAMS.map(f=>`
+ <div class="mxfam">
+  <div class="mxhead"><h4>${f.name}</h4><span class="t">${f.n} tickets</span><span class="b">${f.blurb}</span></div>
+  ${f.mechs.map(([key,label])=>{
+    const items=ALL.filter(t=>t.mech===key);
+    return `<div class="mxmech"><div class="mxml">${label}</div>
+      <div class="mxtiles">${items.map(t=>
+        `<a class="tile ${DC[t.cls]}" href="${U}${t.id}" target="_blank" rel="noopener"
+            title="${t.n} — ${CN[t.cls]}">
+           <span class="ti">${t.id}</span><span class="tn">${t.n}</span></a>`).join("")}</div></div>`;
+  }).join("")}
+ </div>`).join("");
+
+const lat=document.getElementById("lat");
+lat.innerHTML=T.map(t=>{
+  const p=(t.yr/MAX*100);
+  const flip = p > 55;
+  return `<a class="lrow" href="${U}${t.id}" target="_blank" rel="noopener"
+      title="${t.n} — ${t.yr.toFixed(1)} yr from introduction (${t.intro}) to ticket · ${CN[t.cls]}">
+    <span class="lid">${t.id}</span>
+    <span class="ltrack">
+      <span class="lstem" style="width:${p}%"></span>
+      <span class="ldot ${DC[t.cls]}" style="left:${p}%"></span>
+      <span class="lname${flip?' flip':''}" style="left:${p}%">${t.n}</span>
+    </span>
+    <span class="lyr">${t.yr.toFixed(1)}</span></a>`;
+}).join("");
+
+document.getElementById("ax").innerHTML=[0,1,2,3,4,5,6].map(v=>
+  `<span class="atick" style="left:${v/MAX*100}%">${v}${v===6?" yr":""}</span>`).join("");
+
+document.getElementById("tb").innerHTML=T.concat([EX]).map(t=>`<tr>
+  <td class="tk"><a href="${U}${t.id}" target="_blank" rel="noopener">${t.id}</a></td>
+  <td class="nm">${t.n}</td>
+  <td class="rc">${t.rc}</td>
+  <td><span class="chip ${CC[t.cls]}">${CN[t.cls]}</span></td>
+  <td style="color:var(--muted);font-size:.82rem">${t.fam}</td></tr>`).join("");
+</script>
