@@ -41,100 +41,15 @@ body{margin:0;background:var(--bg);color:var(--ink);
   font-size:12.5px;color:#6E5A22;line-height:1.5}
 .warnbar b{color:#4A3C14}
 
-.chart{margin:26px 0 0}
-.plot{position:relative;padding-top:26px}
-.thlabel{position:absolute;top:0;font-size:12.5px;font-weight:700;transform:translateX(-50%);white-space:nowrap}
-.thline{position:absolute;top:20px;bottom:6px;border-left:2px dashed var(--ink)}
-.grp{position:relative;z-index:1;margin-bottom:9px}
-.row{display:grid;grid-template-columns:var(--lw,190px) 1fr;gap:16px;align-items:center;cursor:pointer;
-  border:2px solid transparent;border-radius:4px;padding:2px 0}
-.row.zero{cursor:default}
-.rlab{text-align:right;font-size:14px;color:var(--grey);line-height:1.25;display:flex;align-items:center;justify-content:flex-end;gap:8px}
-.row:hover .rlab,.row.open .rlab{color:var(--ink)}
-.row.hot .rlab{color:var(--ink);font-weight:600}
-.row.zero .rlab,.row.zero:hover .rlab{color:#C3C7CE}
-.caret{flex:0 0 9px;font-size:9px;color:var(--grey-l);transition:transform .18s}
-.row.open .caret{transform:rotate(90deg);color:var(--ink)}
-.row.zero .caret{visibility:hidden}
-.sub{display:block;font-size:11px;color:var(--grey-l);margin-top:4px;font-weight:400}
-.sub a{color:var(--navy);font-weight:600;text-decoration:none}
-.sub a:hover{text-decoration:underline}
-.team{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:100px;
-  color:#fff;vertical-align:1px}
-.team.bf{background:var(--t-bf)}
-.team.b1a{background:var(--t-b1a)}
-.team.unv{background:#fff;color:var(--t-bf);border:1px dashed var(--t-bf);font-weight:600}
-.team.none{background:#fff;color:var(--grey-l);border:1px dashed var(--line);font-weight:600}
-.rbar{display:flex;align-items:center;gap:11px}
-.rbar i{display:block;height:26px;min-width:2px;background:var(--navy);border-radius:2px;
-  transition:width .5s cubic-bezier(.2,.8,.2,1),background .18s}
-.row.hot .rbar i{background:var(--red)}
-.row.mute .rbar i{background:#C3C7CE}
-.row.zero .rbar i{background:#EDEEF1}
-.rbar b{font-size:15px;font-weight:700;color:var(--navy)}
-.row.hot .rbar b{color:var(--red)}
-.row.mute .rbar b{color:var(--grey-l)}
-.row.zero .rbar b{color:#C9CDD3;font-weight:600}
-.row.open{border-color:var(--navy)}
-
-.stack{display:flex;align-items:center;gap:11px}
-.segs{display:flex;height:26px;border-radius:2px;overflow:hidden}
-.seg{display:block;min-width:7px;border:0;padding:0;cursor:pointer;transition:width .5s cubic-bezier(.2,.8,.2,1),filter .15s}
-.seg+.seg{box-shadow:inset 2px 0 0 #fff}
-.seg:hover{filter:brightness(1.18)}
-.seg.on{outline:2px solid var(--ink);outline-offset:1px;z-index:2}
-.seg:focus-visible{outline:2px solid var(--ink);outline-offset:2px;z-index:2}
-.stotal{font-size:15px;font-weight:700;color:var(--ink)}
-.legend{display:flex;flex-wrap:wrap;gap:16px;margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line-f)}
-.lg{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--grey)}
-.lg i{width:11px;height:11px;border-radius:2px;display:block}
-.lg s{text-decoration:none;color:var(--grey-l);font-weight:500}
-
-.drawer{display:none;margin:8px 0 16px;padding-left:calc(var(--lw,190px) + 16px)}
-.drawer.show{display:block}
-.drawer ul{list-style:none;margin:0;padding:0;border-left:3px solid var(--navy)}
-.drawer li{padding:9px 0 9px 15px;border-bottom:1px solid var(--line-f)}
-.drawer li:last-child{border-bottom:0}
-.dtop{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.dlink{font-size:12.5px;font-weight:700;color:var(--navy);text-decoration:none}
-.dlink:hover{text-decoration:underline}
-.dtitle{font-size:14px;line-height:1.4;display:block;margin-top:3px;max-width:72ch}
-.dmeta{font-size:11.5px;color:var(--grey-l);margin-top:3px;display:block}
-.dmeta em{font-style:normal;color:var(--amber);font-weight:600}
-.dmeta a{color:var(--navy);font-weight:600;text-decoration:none}
-.dmeta a:hover{text-decoration:underline}
-.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap}
-.tag.open{background:#FBE9EA;color:var(--red)}
-.tag.done{background:#EEF0F4;color:var(--grey)}
-.tag.cls{color:#fff}
-.drawer .foot{padding:11px 0 0 15px;font-size:12px;font-weight:600;color:var(--grey-l)}
-.dhead{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:9px}
-.dhead a{color:var(--navy);text-decoration:none}
-.dhead a:hover{text-decoration:underline}
-
-.thctl{display:flex;align-items:center;gap:12px;margin:24px 0 0;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);flex-wrap:wrap}
-.thctl input[type=range]{width:190px;accent-color:var(--red)}
-.thctl output{font-weight:800;color:var(--red);font-size:13px;letter-spacing:0;text-transform:none}
-
-.notes{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin:36px 0 0;padding-bottom:52px;border-bottom:1px solid var(--line-f)}
-.note h3{margin:0 0 6px;font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
-.note p{margin:0;color:var(--grey);line-height:1.5}
-.note p b{color:var(--ink);font-weight:600}
-
 footer{margin-top:52px;padding-top:18px;border-top:3px solid var(--ink);font-size:12px;color:var(--grey-l);line-height:1.75}
 footer b{color:var(--grey)}
 @media (max-width:760px){
-  .notes{grid-template-columns:1fr;gap:24px}
   .row{grid-template-columns:140px 1fr;gap:10px}
-  .rlab{font-size:12px}
-  .drawer{padding-left:0}
   .badge{flex:0 0 46px;width:46px;height:46px;font-size:23px}
   .phead{gap:14px}
-  .dtitle{max-width:none}
 }
 @media (prefers-reduced-motion:reduce){.rbar i,.seg,.caret{transition:none}}
 
-/* ── Panel I: Timeline ── */
 .tl-wrap{margin:26px 0 0;overflow-x:auto}
 svg.tl{display:block;font-family:Inter,sans-serif;overflow:visible}
 svg.tl .tl-grid{stroke:var(--line-f);stroke-width:1}
@@ -154,15 +69,16 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
 <div class="wrap">
 
   <div class="mast">
-    <div class="kicker">ClearCalcs · Engineering 1000 · Snapshot 26 Aug 2026</div>
+    <div class="kicker" id="kicker">ClearCalcs · Engineering 1000 · Live from Sheet</div>
     <h1>Calculator bugs — Epic view</h1>
-    <p>Bug timeline by epic and lifecycle milestone. Click ≡ on the timeline or a dot on the charts to see bug details.</p>
+    <p>Bug timeline by epic and lifecycle milestone. Click ≡ on the timeline or a dot on the charts to see bug details. Data loads from the live Google Sheet (ClickUp sync).</p>
+    <p class="hint" id="live-status">Loading live bugs…</p>
     <div class="stats">
-      <div class="stat"><b>71</b><span>tickets</span></div>
-      <div class="stat"><b class="r">32</b><span>open</span></div>
-      <div class="stat"><b>24</b><span>traced to an epic</span></div>
-      <div class="stat"><b>7</b><span>Build Force epics</span></div>
-      <div class="stat"><b>3</b><span>Builder 1A epics</span></div>
+      <div class="stat"><b id="stat-tickets">—</b><span>tickets</span></div>
+      <div class="stat"><b class="r" id="stat-open">—</b><span>open</span></div>
+      <div class="stat"><b id="stat-traced">—</b><span>traced to an epic</span></div>
+      <div class="stat"><b id="stat-bf">—</b><span>Build Force epics</span></div>
+      <div class="stat"><b id="stat-b1a">—</b><span>Builder 1A epics</span></div>
     </div>
   </div>
 
@@ -196,10 +112,10 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
   <section class="panel" id="panel-epic-charts">
     <div class="phead"><div class="badge">B</div><h2>Bugs per epic — by delivery milestone</h2></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap">
-      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = closed epic with no bugs at all (shown in every filter). Yellow outline on a dot = RES-only filter. Click a dot to see that epic’s bugs (RES tickets keep the yellow outline on the class chip).</p>
+      <p style="margin:0;color:var(--grey);max-width:68ch;font-size:14px">Each dot is one epic (calculator feature). Y = number of bugs linked to that epic. <b>Chart 1</b>: bugs found before the epic closed. <b>Chart 2</b>: new bugs reported within 30 days of the epic closing. <b>Chart 3</b>: new bugs reported within 90 days of closing. Hollow dots = closed epic with no bugs in that window. Yellow outline on a dot = RES-only filter. Click a dot to see that epic’s bugs (RES tickets keep the yellow outline on the class chip).</p>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <label style="font-size:13px;font-weight:600;color:var(--navy,#1e293b);white-space:nowrap">Show bugs:</label>
-        <select id="bug-filter-select" onchange="window.applyBugFilter(this.value)"
+        <select id="bug-filter-select" onchange="window.applyBugFilter && window.applyBugFilter(this.value)"
           style="font-size:13px;padding:5px 10px;border:1px solid var(--border,#e2e8f0);border-radius:6px;background:#fff;color:var(--navy,#1e293b);cursor:pointer">
           <option value="all">All bugs</option>
           <option value="class23">Class 2 &amp; 3 only (High / Critical)</option>
@@ -209,8 +125,6 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
     </div>
     <div id="epic-charts-wrap" style="display:flex;flex-direction:column;gap:32px;margin-top:16px">
       <p id="m-filter-label" style="margin:0;font-size:12px;color:var(--grey,#64748b)">Showing <b>all bugs</b> (RES and others)</p>
-
-      <!-- Chart 1: bugs found before close -->
       <div>
         <div id="m-chart-beta"></div>
         <div id="m-drawer-beta" style="display:none;margin-top:12px;border:1px solid var(--border,#e2e8f0);border-radius:10px;overflow:hidden">
@@ -232,8 +146,6 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
           </table></div>
         </div>
       </div>
-
-      <!-- Chart 2: bugs 30d post-close -->
       <div>
         <div id="m-chart-30d"></div>
         <div id="m-drawer-30d" style="display:none;margin-top:12px;border:1px solid var(--border,#e2e8f0);border-radius:10px;overflow:hidden">
@@ -255,8 +167,6 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
           </table></div>
         </div>
       </div>
-
-      <!-- Chart 3: bugs 90d post-close -->
       <div>
         <div id="m-chart-90d"></div>
         <div id="m-drawer-90d" style="display:none;margin-top:12px;border:1px solid var(--border,#e2e8f0);border-radius:10px;overflow:hidden">
@@ -278,992 +188,624 @@ svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middl
           </table></div>
         </div>
       </div>
-
     </div>
   </section>
 
-  <footer>
-    Workspace 6927027 · Engineering 1000 · Snapshot 26 Aug 2026 · + RES review bugs (yellow outline, class fill) · 24 bugs traced to epic by confirmed linked task.
+  <footer id="page-footer">
+    Workspace 6927027 · Engineering 1000 · Live from Google Sheet
   </footer>
 </div>
 
 <script>
-const RC=["Diagram / Calculation Mismatch","Missing geometrical checks","Wrong Calculation","Upgrade Mapping",
- "VisibleIf","Text Typo","Failing preset","Unhandled Edge Case","Missing Assumption/Calculation",
- "Misinterpreted Code/Standard","Default values","Images not matching","Export PDF","Unclear UX",
- "Buildkite & Testing","Client-specific Changes"];
-const CLS=["Warning Bug","Class 0 - Low","Class 1 - Moderate","Class 2a - High","Class 2b - Very High","Class 3 - Critical","Unclassified"];
-const CLSC={"Warning Bug":"var(--c-warn)","Class 0 - Low":"var(--c-c0)","Class 1 - Moderate":"var(--c-c1)",
- "Class 2a - High":"var(--c-c2a)","Class 2b - Very High":"var(--c-c2b)","Class 3 - Critical":"var(--c-c3)","Unclassified":"var(--c-un)"};
-
-/* epicId + buiId make both clickable. team: read from G-Sub Team on the BUI.
-   null = field empty in ClickUp. "unverified" = per Andrea, BUI not read. */
-const EPICS={
- "(BRACE-NEW) Internal Double Gusset-USA":
-   {epicId:"86d1bzhk5",buiId:"86d2yzg1e",bui:"BUI- Internal Double Gusset-USA",team:"Build Force"},
- "LINK BRACE BM - COL-All HSS Beam to HSS Column shear":
-   {epicId:"86d3crexk",buiId:"86d3crgzr",bui:"BUI- LINK BRACE BM - COL",team:"Build Force"},
- "(PHASE2) Shear in splices USA: HSS to HSS Splices: Add Shear":
-   {epicId:"86d1bzhwe",buiId:"86d2yzf67",bui:"BUI- USA: HSS to HSS Splices: Add Shear",team:"Builder 1A"},
- "Sliding Snow":
-   {epicId:"86d394pdr",buiId:"86d3a6w46",bui:"BUI- Sliding Snow",team:"Builder 1A"},
- "INV- HSS to HSS Shear":
-   {epicId:"86d36n141",buiId:"86d36n1db",bui:"BUI- INV- HSS to HSS Shear",team:null},
- "(CONCFILL-HSSCOL) Optimized end plate connection HSS TO HSS-USA":
-   {epicId:"86d25gxhz",buiId:"86d2yzh3h",bui:"BUI- Optimized end plate connection -USA",team:"Build Force"},
- "CFS Column – Lateral Loads":
-   {epicId:"86d2wam3c",buiId:"86d2zjzrm",bui:"BUI- CFS Column – Lateral Loads",team:"Build Force"},
- "Base Plate Brace Loading (HSS Col)":
-   {epicId:"86d3crerx",buiId:"86d3crgx6",bui:"BUI- Base Plate Brace Loading (HSS Col)",team:"Build Force"},
- "PLATE CONN-Round HSS - Longitudinal Plate (T-, Y-, Cross-)":
-   {epicId:"86d3crfe2",buiId:"86d3crjnp",bui:"BUI- PLATE CONN-Round HSS - Longitudinal Plate",team:"Build Force"},
- "C&C – Parapet & Overhang Wind (ASCE 7-22)":
-   {epicId:"86d3fh6yv",buiId:"86d3ef5ka",bui:"BUI- C&C Parapet Height & Overhang Wind Area Tables",team:"Builder 1A"},
- "NBCC 2020 Snow Loads":
-   {epicId:"86d344h3u",buiId:"86d344m3j",bui:"BUI- NBCC 2020 Snow Loads",team:"Builder 1A"},
- "ASCE 7-22 Snow Loads – Upgrades":
-   {epicId:"86d3fgj4e",buiId:"86d3ef4tk",bui:"BUI- Snow Loads – Upgrades",team:"Builder 1A"},
- "ICC Means of Egress – Route Diagram":
-   {epicId:"86d3pr91c",buiId:"86d3pr95w",bui:"BUI- ICC MoE Route Diagram & Discharge Restructure",team:"Builder 1A"},
- "(PHASE2) Moment End Plate Splice – Rect":
-   {epicId:"86d3prcmm",buiId:"86d3prcuj",bui:"BUI- (PHASE2) Moment in end plate splice -Rectangular",team:"Builder 1A"},
- "(BRACE-NEW) External Double Gusset-USA":
-   {epicId:"86d1bzhk8",buiId:"86d2yzfwf",bui:"BUI- External Double Gusset-USA",team:"Build Force"},
- "Combined Footing (IBC 2024)":
-   {epicId:"86d2wabba",buiId:"86d2zjte8",bui:"BUI- Combined Footing",team:null},
- "Steel Composite Beam (LRFD)":
-   {epicId:"86d34juxp",buiId:"86d34jwvz",bui:"BUI- Steel Composite Beam (LRFD)",team:null},
- "Restrained (Basement) Retaining Wall (IBC 2024)":
-   {epicId:"86d34jv1m",buiId:"86d34jwtg",bui:"BUI- Restrained (Basement) Retaining Wall (IBC 2024)",team:"Builder 1A"}
+const DATA_URL = "https://script.google.com/macros/s/AKfycbztotO3KPCV15_-7Re7uL46DmMjLb_w6F2kAYFj_xcuMP8vGDFHnSH7feyTrTpQGDYQsw/exec";
+const CLS = ["Warning Bug","Class 0 - Low","Class 1 - Moderate","Class 2a - High","Class 2b - Very High","Class 3 - Critical","Unclassified"];
+const CLSC = {"Warning Bug":"var(--c-warn)","Class 0 - Low":"var(--c-c0)","Class 1 - Moderate":"var(--c-c1)",
+  "Class 2a - High":"var(--c-c2a)","Class 2b - Very High":"var(--c-c2b)","Class 3 - Critical":"var(--c-c3)","Unclassified":"var(--c-un)"};
+const HIGH_CLS = new Set(["Class 2a - High","Class 2b - Very High","Class 3 - Critical"]);
+const RES_COHORT = "res-sep-2026";
+const NO_EPIC = "No epic";
+const CU = id => `https://app.clickup.com/t/${id}`;
+const SHORT = {
+  "86d1bzhk5":"IDG","86d1bzhk8":"EDG","86d3crexk":"LINK BRACE",
+  "86d1bzhwe":"HSS Splice Shear","86d394pdr":"Sliding Snow","86d36n141":"INV Shear",
+  "86d25gxhz":"OEPC","86d2wam3c":"CFS Column","86d3crerx":"Base Plate HSS",
+  "86d3cretg":"Base Plate WF","86d3crfe2":"Longitudinal Plate","86d3fh6yv":"C&C Wind",
+  "86d344h3u":"NBCC Snow","86d3fgj4e":"Snow Upgrades","86d3pr91c":"ICC MoE",
+  "86d3prcmm":"Moment Splice","86d2wabba":"Combined Footing","86d34juxp":"Composite Beam",
+  "86d34jv1m":"Restrained RW","86d3a6cay":"HST"
 };
-window._EPICS_GLOBAL = EPICS;
-const CU=id=>`https://app.clickup.com/t/${id}`;
-function teamChip(t){
-  if(t==="Build Force")return '<span class="team bf">Build Force</span>';
-  if(t==="Builder 1A")return '<span class="team b1a">Builder 1A</span>';
-  if(t==="unverified")return '<span class="team unv" title="Per Andrea; BUI not read in ClickUp">Build Force · unverified</span>';
-  return '<span class="team none">team not set</span>';
-}
-function epicLinks(name){
-  const e=EPICS[name]; if(!e)return "";
-  return `<span class="sub"><a href="${CU(e.epicId)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">epic ↗</a>
-   · <a href="${CU(e.buiId)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${e.bui} ↗</a><br>${teamChip(e.team)}</span>`;
-}
+const MNAME = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-const BUGS=[
- {id:"86d43u1jn",n:"CFS Steel Column: \"Link to reaction\" crashes or leaves Load Magnitudes empty after upgrade",calc:"US CFS Columns",epic:"CFS Column – Lateral Loads",list:"CC US",proj:"Core Calcs",rc:"Unhandled Edge Case",cls:"Class 1 - Moderate",st:"close",lts:[["86d3hz689", "CFS LD - Load Inputs & FEM Solver"], ["86d3hz68x", "CFS LD - Load Case Tables & Diagrams"]]},
- {id:"86d3takc5",n:"HSS to HSS Moment Seated (WT): fillet weld symbol instead of flare bevel groove",calc:"HSS to HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"close",flag:"class is debatable: the symbol is part of the deliverable"},
- {id:"86d3tcrd5",n:"Column Bracing IDG: preset defaults fail W_bgp ≤ W_bgpc on open",calc:"Column Bracing",epic:"(BRACE-NEW) Internal Double Gusset-USA",list:"ATL PH3",proj:"Atlas Tube",rc:"Failing preset",cls:"Warning Bug",st:"close",lts:[["86d2xqxae", "IDG-USA - Brace Limits States"], ["86d3014fc", "IDG-USA - Gusset Plate Checks"], ["86d34j7bu", "IDG-USA - Diagram"]]},
- {id:"86d3jwfgx",n:"loadsSnowASCE7-22: valid case is not set to Testing Only",calc:"US Snow Loads",epic:"Sliding Snow",list:"NUC-USA Environmental",proj:"Nucor",rc:"Failing preset",cls:"Warning Bug",st:"close",lts:[["86d3a6w46", "BUI- Sliding Snow"], ["86d3ccahz", "Sliding Snow - Story"]]},
- {id:"86d3rxhe4",n:"Column Bracing IDG: missing hidden lines where the brace passes behind the gusset",calc:"Column Bracing",epic:"LINK BRACE BM - COL-All HSS Beam to HSS Column shear",list:"ATL PH4",proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"close",flag:"epic link needs review",lts:[["86d3hz53r", "LINK BRACE BM-COL - HSS to HSS Shear Connection"]]},
-
- {id:"86d3rx6be",n:"HSS Steel Base Plate: six copy and style fixes from the PR #19667 review",calc:"HSS Steel Base Plate",epic:null,list:"ATL PH4",proj:"Atlas Tube",rc:"Text Typo",cls:"Warning Bug",st:"close"},
- {id:"86d3tnny0",n:"WF to HSS Shear: connection/HSS interface edge dashed when it should be solid",calc:"WF to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"close"},
- {id:"86d3v6c60",n:"HSS Truss Bolted: typos brnahc, Spaing, walss",calc:"HSS Truss Bolted",epic:null,list:null,proj:"Atlas Tube",rc:"Text Typo",cls:"Warning Bug",st:"close"},
- {id:"86d3qfh4a",n:"Concrete Filled Moment: undefined k_des_WT in the Beam Setback check",calc:"Concrete-Filled HSS Moment",epic:"(CONCFILL-HSSCOL) Optimized end plate connection HSS TO HSS-USA",list:"ATL PH3",proj:"Atlas Tube",rc:"VisibleIf",cls:"Warning Bug",st:"close",flag:"branch is unreachable today, no user impact",lts:[["86d39q6wr", "OEPC - Thickness Procedure & Load Routing"], ["86d39q6y0", "OEPC - Column Check"], ["86d39q6yr", "OEPC - Panel Zone Shear"], ["86d3d7r0v", "OEPC - Weld Checks"]]},
- {id:"86d3nm4x6",n:"Roof overhang pressures compute one direction only, simultaneous case missing",calc:"ASCE 7-22 Wind C&C",epic:"C&C – Parapet & Overhang Wind (ASCE 7-22)",list:null,proj:"Nucor",rc:"Missing Assumption/Calculation",cls:"Class 0 - Low",st:"close",lts:[["86d3h9vee", "BUI- C&C Parapet Height & Overhang Wind Area Tables"], ["86d3h9vfn", "Table for Parapet Heights ASCE 7-22"]]},
- {id:"86d3brqy9",n:"Concrete-Filled HSS Moment OEPC: t_mxc returns NaN under tension-only load",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Class 0 - Low",st:"close",flag:"lives in 🐞 BUGS, Calcs space"},
- {id:"86d3p8tr5",n:"Snow Loads NBCC 2020: hp' is not capped at 0, over-conservative results",calc:"CA Snow Loads",epic:"NBCC 2020 Snow Loads",list:null,proj:"Nucor",rc:"Wrong Calculation",cls:"Class 2b - Very High",st:"close"},
- {id:"86d2rbnec",n:"HSS Splice US: upgrade mapping error from version 31 to 98",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Upgrade Mapping",cls:"Class 1 - Moderate",st:"in review"},
- {id:"86d3rzgjd",n:"Masonry Shear Wall LRFD: can't reference invisible widget d_v when openings are on",calc:"US Masonry Shear Wall",epic:null,list:null,proj:"Core Calcs",rc:"VisibleIf",cls:"Class 1 - Moderate",st:"in progress",pr:18984},
- {id:"86d3zzw28",n:"HSS Splice Column: square/rect end-plate weld may not enforce HSS wall yield check",calc:"HSS to HSS Splice",epic:null,list:"ATL PH3",proj:"Atlas Tube",rc:"Misinterpreted Code/Standard",cls:"Class 3 - Critical",st:"ready development",flag:"class unconfirmed: hinges on how DG24 §7.1.3 is read",lts:[["86d2ju6h3", "USA Splices: Shear - End Plate Square/Rect"], ["86d3anb20", "Story: Splice Shear CA"], ["86d3dhuqr", "ATLAS BUG: Splice Diagram Wrong Bolts"], ["86d3fj5wu", "Story: Splice Shear Limit States"], ["86d3fwyjg", "ATLAS BUG: Splice Bolt Count"]]},
- {id:"86d44eqby",n:"HSS to HSS Shear: Shuriken extends beyond the splice plate in the Hidden connection",calc:"HSS to HSS Shear",epic:"INV- HSS to HSS Shear",list:"Innovation Features",proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 2a - High",st:"ready development",lts:[["86d36n1db", "BUI- INV- HSS to HSS Shear"], ["86d36n1dp", "INV- Shear Story"], ["86d3unfpu", "INV- Diagram Fix"]]},
- {id:"86cz8pgpv",n:"TKYX (shear and moment): End Distance reduction",calc:"HSS Truss",epic:null,list:null,proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 0 - Low",st:"ready development",flag:"ticket is only images and references, no repro"},
- {id:"86d3zaeyv",n:"Internal Double Gusset: edge distance limits may not be enforced",calc:"Column Bracing",epic:"(BRACE-NEW) Internal Double Gusset-USA",list:"ATL PH3",proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 0 - Low",st:"ready development",flag:"no calc link or client input values",lts:[["86d2xqxae", "IDG-USA - Brace Limits States"], ["86d3014fc", "IDG-USA - Gusset Plate Checks"], ["86d34j7bu", "IDG-USA - Diagram"]]},
- {id:"86d3pntyk",n:"HSS to HSS Moment Fin Plate: Roof and Intermediate diagrams are swapped",calc:"HSS to HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"backlog"},
- {id:"86d3q55d7",n:"HSS to HSS Shear (Hidden): missing \"Three Sides\" tail note on the plate-to-column weld",calc:"HSS to HSS Shear",epic:"LINK BRACE BM - COL-All HSS Beam to HSS Column shear",list:"ATL PH4",proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"backlog",flag:"under-specifies the weld in the shop",lts:[["86d3hz53r", "LINK BRACE BM-COL - HSS to HSS Shear Connection"]]},
- {id:"86d42np3u",n:"HSS Base Plate AISC 360-22: upgrade mapping error from version 7 to 12",calc:"HSS Steel Base Plate",epic:"Base Plate Brace Loading (HSS Col)",list:"ATL PH4",proj:"Atlas Tube",rc:"Upgrade Mapping",cls:"Class 1 - Moderate",st:"backlog",lts:[["86d3q5qq9","BP BL HSS - Feature 1: Add Tension"],["86d3q5qqd","BP BL HSS - Feature 2: Add Weld Checks"],["86d3q5qqc","BP BL HSS - Feature 3: Improve Diagram"],["86d3q5qqg","BP BL HSS - Feature 4: Multiple Anchors & Concrete Depth"],["86d3q5qqf","BP BL HSS - Feature 5: Anchor Shear Load Distribution"],["86d3wdwzp","VALID: Base Plate HSS Col - Uplift & Shear Breakout Case 2"]]},
- {id:"86d3ep54t",n:"HSS Splices US: Not Factored Combined Tension/Shear Bolt capacity",calc:"HSS to HSS Splice",epic:null,list:"ATL PH3",proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 3 - Critical",st:"close",lts:[["86d2ju6fe", "USA Splices: Shear - End Plate Round"]]},
- {id:"86d39pab2",n:"CA HSS to HSS Splice: Wrong Effective Longitudinal Weld length",calc:"HSS to HSS Splice",epic:null,list:"ATL PH3",proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close"},
- {id:"86d2vm3u2",n:"Column Bracing Cast Connex: hide widgets that don't apply to high-strength connector",calc:"Column Bracing",epic:null,list:"ATL PH3",proj:"Atlas Tube",rc:"VisibleIf",cls:"Class 0 - Low",st:"in progress"},
- // 86d3rxhfc — reasignado a IDG por contenido del bug (IDG preset Column Bracing)
- {id:"86d3rxhfc",n:"Column Bracing IDG: diagram missing Shuriken bolt label",calc:"Column Bracing",epic:"(BRACE-NEW) Internal Double Gusset-USA",list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Warning Bug",st:"close"},
- // HSS to HSS Splice → epic (PHASE2) Shear Add Shear
- {id:"86cz31dvq",n:"HSS SPLICE Connection - End Plates: Template fails under lower loading",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Class 2b - Very High",st:"close"},
- {id:"86cywetmc",n:"HSS Splice Single-shear Field-Welded External crashes when adding moment",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Unclassified",st:"close"},
- {id:"86cz319vz",n:"HSS Splice - No matching equation for yield line pattern",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Unclassified",st:"close"},
- {id:"86d0g6ahu",n:"Splice Calculator: number of bolts doesn't change in diagram",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Unclassified",st:"close"},
- {id:"86d29gadv",n:"Atlas Bug: Splice CA - check plate tensile rupture areas",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2b - Very High",st:"close"},
- {id:"86d0jcxzy",n:"HSS-to-HSS Splice Field Welded: Block Shear area not reduced for gap",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Unclassified",st:"close"},
- {id:"86d3qfh5r",n:"HSS to HSS Splice Column CA: undefined t_sp in Horizontal Weld",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"VisibleIf",cls:"Warning Bug",st:"in review",lts:[["86czzqrnn", "HSS to HSS Splice External FW - Limit States"], ["86d0j212p", "Splice: hole type fix"]]},
- {id:"86d1ymm4e",n:"ATLAS BUG: GLOBAL: Splice: Lever Arm",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"ready development"},
- {id:"86d3q667g",n:"HSS to HSS Splice Connection CA: duplicate symbol definitions",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Text Typo",cls:"Class 0 - Low",st:"close"},
- {id:"86d3ku221",n:"HSS to HSS Splice Connection - Unexpected error FW with ASD",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Class 0 - Low",st:"backlog",lts:[["86d0w488k", "US Splice: Clarify X and Y convention"], ["86d18y5tt", "Splice: ASD visibleIf fix"]]},
- {id:"86d3a8ejg",n:"AT BUG: HSS Splice Column CA: Project upgrade fails with Undefined function",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Upgrade Mapping",cls:"Class 2b - Very High",st:"close",lts:[["86d2rbnec", "HSS Splice US: upgrade mapping error"]]},
- {id:"86d375xcg",n:"Bug: Min bolt spacing bugs (HSS Splices + HSS to HSS Moment)",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 0 - Low",st:"in progress"},
- {id:"86d375xen",n:"Bug: Min edge distance doesn't account for Shuriken requirements",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 0 - Low",st:"ready development"},
- {id:"86d3q6nkq",n:"HSS to HSS Splice Connection CA: undefined variable in weld checks",calc:"HSS to HSS Splice",epic:null,list:null,proj:"Atlas Tube",rc:"VisibleIf",cls:"Warning Bug",st:"close",pr:null},
- // Concrete-Filled HSS Moment → epic (CONCFILL-HSSCOL) OEPC
- {id:"86d3039q8",n:"ATLAS BUG: Concrete-Filled HSS Moment Connection Bugs (bundle)",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Unclassified",st:"close"},
- {id:"86d3tnw54",n:"Concrete Filled HSS Moment — Gage Distance has no check against Column Width",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 2b - Very High",st:"close",lts:[["86d0ma9dw", "OEPC - Inputs"]]},
- {id:"86d3qfh30",n:"Concrete Filled Moment CA: undefined col_type/D_col",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"VisibleIf",cls:"Warning Bug",st:"close"},
- {id:"86d2ggkeh",n:"Atlas Bug - Concrete Filled All Presets: sign convention check (CA/USA)",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close",lts:[["86d0ma9eb", "OEPC - Limit States"], ["86d0ma9hx", "OEPC - Column Check 2"], ["86d0ndv9a", "OEPC - Panel Zone"], ["86d0ne8w1", "OEPC - Weld Checks 2"]]},
- {id:"86d2ggnur",n:"Atlas Bug - Concrete Filled All Presets CA/USA: sign convention check follow-up",calc:"Concrete-Filled HSS Moment",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close"},
- // HSS to HSS Shear → epic INV- HSS to HSS Shear
- {id:"86d0eawef",n:"HSS to HSS Fin plate: Break Calc when round and LRFD are selected",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Unhandled Edge Case",cls:"Unclassified",st:"close"},
- {id:"86d0eax0u",n:"HSS to HSS Fin plate Round: Crippling calculations showing for round HSS",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"VisibleIf",cls:"Unclassified",st:"close"},
- {id:"86d0b7134",n:"ATLAS BUG - HSS/HSS End Plate - Face Plate - Fix beam to beam End plate errors",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close"},
- {id:"86d22nxwc",n:"Atlas Bug - Global - HSS-HSS - wrong application of Q_f",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close"},
- {id:"86d0c7kqp",n:"HSS to HSS Shear All presets: wrong Width Resisting Shear Force label",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Text Typo",cls:"Unclassified",st:"close"},
- {id:"86d3n7eq8",n:"HSS to HSS Shear - End Plate connection type missing from Q-Calculator Name",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Text Typo",cls:"Class 0 - Low",st:"close"},
- {id:"86d3rz861",n:"HSS to HSS Shear End Plate – g_ep missing upper bound check against column",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Missing geometrical checks",cls:"Class 2b - Very High",st:"close"},
- {id:"86d3rz7e9",n:"HSS to HSS Shear – Unstiffened Seated preset PDF link shows wrong connection type",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Text Typo",cls:"Class 1 - Moderate",st:"blocked"},
- {id:"86d3q54pe",n:"HSS to HSS Shear (End Plate - Side Angles) - Missing Three Sides tail note on weld",calc:"HSS to HSS Shear",epic:null,list:null,proj:"Atlas Tube",rc:"Diagram / Calculation Mismatch",cls:"Class 0 - Low",st:"backlog"},
- // Column Bracing → epic (BRACE-NEW) IDG
- {id:"86d2wa1yy",n:"Atlas Bug: Over conservative Gusset Plate Buckling Checks in Column Bracing",calc:"Column Bracing",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2b - Very High",st:"close",lts:[["86czacm7q", "VALID: AISC DG29 Ex 5.9 Bolted"], ["86czyv7ej", "VALID: Column Bracing Bolted"], ["86d0e0v68", "Story: Bolted Gusset Buckling"]]},
- {id:"86d37rrpx",n:"Atlas Bug - Bracing to Column - Fix k factor and unbraced length in gusset plate",calc:"Column Bracing",epic:null,list:null,proj:"Atlas Tube",rc:"Wrong Calculation",cls:"Class 2b - Very High",st:"ready development",lts:[["86czacm7q", "VALID: AISC DG29 Ex 5.9 Bolted"], ["86czyv7ej", "VALID: Column Bracing Bolted"], ["86d0e0v68", "Story: Bolted Gusset Buckling"]]},
- {id:"86d2adq36",n:"Atlas US & CA - Bracing - Confirm/fix L_end considerations",calc:"Column Bracing",epic:null,list:null,proj:"Atlas Tube",rc:"Missing Assumption/Calculation",cls:"Class 2a - High",st:"ready development",lts:[["86d213h1u", "Brace templates CA - Add inputs for beam & column forces"]]}
-,
-  {id:"86d3ccagc",n:"HSS Splice Column: Upgrade 104→108 fails for FX/EX connection type",calc:"HSS to HSS Splice",epic:"(PHASE2) Moment End Plate Splice – Rect",list:"Bugs",proj:"Engineering 1000",rc:"Upgrade Mapping",cls:"Class 2a - High",st:"close",lts:[["86d3hz1ba","USA: HSS to HSS Splices: Moment - End-Plate Square/Rect - Inputs"]]},
-  {id:"86d3xphjz",n:"Bug: ICC MoE – Buddy Feedback",calc:"ICC Means of Egress",epic:"ICC Means of Egress – Route Diagram",list:"Builder-1A",proj:"Project 1000",rc:"Wrong Calculation",cls:"Class 2a - High",st:"close",lts:[["86d3n7r9t","ICC MoE: Promote experimental JSON to main"]]},
-  {id:"86d3nm14b",n:"Ct/Cs in Roof Step drift may use wrong roof R-value/slope",calc:"US Snow Loads",epic:"ASCE 7-22 Snow Loads – Upgrades",list:"Bugs",proj:"Engineering 1000",rc:"Wrong Calculation",cls:"Class 0 - Low",st:"backlog",lts:[["86d39pxj5","SU- Snow Loads on Adjacent Structures"],["86d39py6w","SU- Separate Snow Drift Pressures"],["86d3m1wvj","VALID: Snow Loads on Adjacent Structures Ex 4.8"]]},
-  {id:"86d3nm4xj",n:"Wall/Parapet C&C pressures incorrect beyond known Kz/Edge-Zone cascades",calc:"ASCE 7-22 Wind C&C",epic:"C&C – Parapet & Overhang Wind (ASCE 7-22)",list:"Bugs",proj:"Engineering 1000",rc:"Wrong Calculation",cls:"Warning Bug",st:"backlog",lts:[["86d3h9vee","BUI- C&C Parapet Height & Overhang Wind Area Tables"],["86d3h9vfn","Table for Parapet Heights ASCE 7-22"]]},
-  // RES 3rd-party / DWA review — yellow outline, fill stays bug class
-  {id:"86d43ur4n",n:"Qf,c — use Qf=1 for chords in tension (AISC Spec K1.3)",calc:"Longitudinal Plate to HSS",epic:"PLATE CONN-Round HSS - Longitudinal Plate (T-, Y-, Cross-)",list:"ATL PH4",proj:"Atlas Tube",rc:"Misinterpreted Code/Standard",cls:"Class 2b - Very High",st:"backlog",cohort:"res-sep-2026",lts:[["86d3crjpc","RES- PLATE CONN-Round HSS - Longitudinal Plate"]]},
-  {id:"86d43ur4z",n:"Limit States — add HSS-wall moment plastification & punching shear when ex>0",calc:"Longitudinal Plate to HSS",epic:"PLATE CONN-Round HSS - Longitudinal Plate (T-, Y-, Cross-)",list:"ATL PH4",proj:"Atlas Tube",rc:"Missing Assumption/Calculation",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d3crjpc","RES- PLATE CONN-Round HSS - Longitudinal Plate"]]},
-  {id:"86d43ur51",n:"Variables — match capitalization between detail and input (lb vs Lb)",calc:"Longitudinal Plate to HSS",epic:"PLATE CONN-Round HSS - Longitudinal Plate (T-, Y-, Cross-)",list:"ATL PH4",proj:"Atlas Tube",rc:"Text Typo",cls:"Class 0 - Low",st:"backlog",cohort:"res-sep-2026",lts:[["86d3crjpc","RES- PLATE CONN-Round HSS - Longitudinal Plate"]]},
-  {id:"86d46yggf",n:"Anchor bolts in tension outside rectangular HSS face — 45° width, strain & 4\" corner weld (STI / DG 10)",calc:"HSS Steel Base Plate",epic:"Base Plate Brace Loading (HSS Col)",list:"ATL PH4",proj:"Atlas Tube",rc:"Misinterpreted Code/Standard",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d3crgxn","RES- Base Plate Brace Loading (HSS Col)"]]},
-  {id:"86d3tcp63",n:"External Double Gusset (USA) — preset fails immediately on open",calc:"Column Bracing",epic:"(BRACE-NEW) External Double Gusset-USA",list:"ATL PH3",proj:"Atlas Tube",rc:"Failing preset",cls:"Class 0 - Low",st:"close",cohort:"res-sep-2026",lts:[["86d2zdmzz","RES- External Double Gusset-USA"]]},
-  {id:"86d4596av",n:"[SMV review] SFD & BMD — dummy Combined Footing Combo, ASD/LRFD mismatch",calc:"Combined Footing",epic:"Combined Footing (IBC 2024)",list:"CC US",proj:"Core Calcs",rc:"Wrong Calculation",cls:"Class 2a - High",st:"backlog",cohort:"res-sep-2026",lts:[["86d2zjtnh","RES- Combined Footing"]]},
-  {id:"86d4598jx",n:"[SMV review] Plastic moment resistance — Mp differs from AISC Manual Table 3-19",calc:"Composite Beam LRFD",epic:"Steel Composite Beam (LRFD)",list:"CC US",proj:"Core Calcs",rc:"Wrong Calculation",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d34jz83","RES- Steel Composite Beam (LRFD)"]]},
-  {id:"86d4598k1",n:"[SMV review] Lower-bound elastic moment of inertia — I_LB / Y_ENA uses plastic Y_3",calc:"Composite Beam LRFD",epic:"Steel Composite Beam (LRFD)",list:"CC US",proj:"Core Calcs",rc:"Wrong Calculation",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d34jz83","RES- Steel Composite Beam (LRFD)"]]},
-  {id:"86d4598kc",n:"[SMV review] Deflection follows I_LB (1.33 in vs 1.49 in)",calc:"Composite Beam LRFD",epic:"Steel Composite Beam (LRFD)",list:"CC US",proj:"Core Calcs",rc:"Wrong Calculation",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d34jz83","RES- Steel Composite Beam (LRFD)"]]},
-  {id:"86d45yrvd",n:"[SMV review] Upward soil pressure considered but dead-load surcharge neglected",calc:"Restrained Retaining Wall",epic:"Restrained (Basement) Retaining Wall (IBC 2024)",list:"CC US",proj:"Core Calcs",rc:"Missing Assumption/Calculation",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d34jwu0","RES- Restrained (Basement) Retaining Wall (IBC 2024)"]]},
-  {id:"86d45yrvu",n:"[SMV review] Transverse reinf spacing missing 0.0025 for bars > #5",calc:"Restrained Retaining Wall",epic:"Restrained (Basement) Retaining Wall (IBC 2024)",list:"CC US",proj:"Core Calcs",rc:"Misinterpreted Code/Standard",cls:"Class 3 - Critical",st:"backlog",cohort:"res-sep-2026",lts:[["86d34jwu0","RES- Restrained (Basement) Retaining Wall (IBC 2024)"]]}
-];
-const OPEN=b=>b.st!=="close";
-const NOEPIC="Not linked to an epic";
-const key=(b,d)=>b[d]||NOEPIC;
-const SEP="\u0000";
-const TEAMLBL={"Build Force":"Build Force","Builder 1A":"Builder 1A","unverified":"Build Force (unverified)"};
-BUGS.forEach(b=>{
-  if(!b.epic){b.team="No epic";return}
-  const t=EPICS[b.epic].team;
-  b.team=t===null?"Team not set":TEAMLBL[t];
-});
-const TEAMORDER=["Build Force","Builder 1A","Build Force (unverified)","Team not set","No epic"];
-
-function tally(set,dim,fixed){
-  const m=new Map(); (fixed||[]).forEach(k=>m.set(k,0));
-  set.forEach(b=>{const v=key(b,dim); m.set(v,(m.get(v)||0)+1)});
-  const arr=[...m].map(([k,v])=>({k,v}));
-  return fixed?arr:arr.sort((a,b)=>b.v-a.v||a.k.localeCompare(b.k));
+function esc(s){
+  return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
-function stackData(set){
-  const m=new Map();
-  set.filter(b=>b.epic).forEach(b=>{
-    if(!m.has(b.epic))m.set(b.epic,{k:b.epic,list:b.list,total:0,by:new Map()});
-    const e=m.get(b.epic); e.total++; e.by.set(b.cls,(e.by.get(b.cls)||0)+1);
+function isTrue(v){
+  const s = String(v == null ? "" : v).trim().toUpperCase();
+  return s === "TRUE" || s === "1" || s === "YES";
+}
+function isChartOn(v){
+  const s = String(v == null ? "" : v).trim().toUpperCase();
+  return s !== "FALSE" && s !== "0" && s !== "NO";
+}
+function isoDay(v){
+  if (v == null || v === "") return "";
+  const s = String(v).trim();
+  let m = s.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (m) return m[1];
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return `${m[3]}-${m[1].padStart(2,"0")}-${m[2].padStart(2,"0")}`;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? "" : d.toISOString().slice(0,10);
+}
+function parseLts(s){
+  if (!s) return [];
+  return String(s).split(";").map(p => {
+    const i = p.indexOf("|");
+    return i < 0 ? [p, p] : [p.slice(0, i), p.slice(i + 1)];
+  }).filter(pair => pair[0]);
+}
+function axisLabel(ep){
+  if (ep.id && SHORT[ep.id]) return SHORT[ep.id];
+  const s = ep.label || ep.name || ep.id || "";
+  return s.length > 36 ? s.slice(0, 34) + "…" : s;
+}
+function monthRange(startIso, endIso){
+  const months = [];
+  const labels = [];
+  let y = +startIso.slice(0, 4);
+  let m = +startIso.slice(5, 7);
+  const endY = +endIso.slice(0, 4);
+  const endM = +endIso.slice(5, 7);
+  while (y < endY || (y === endY && m <= endM)) {
+    months.push(`${y}-${String(m).padStart(2, "0")}`);
+    labels.push(`${MNAME[m - 1]}'${String(y).slice(2)}`);
+    m += 1;
+    if (m > 12) { m = 1; y += 1; }
+  }
+  return { months, labels };
+}
+function loadJsonp(url){
+  return new Promise((resolve, reject) => {
+    const cb = "bugdash_" + Math.random().toString(36).slice(2);
+    const s = document.createElement("script");
+    const t = setTimeout(() => fail(new Error("Timed out loading live data")), 25000);
+    function cleanup(){
+      clearTimeout(t);
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+    }
+    function fail(err){ cleanup(); reject(err); }
+    window[cb] = function(data){ cleanup(); resolve(data); };
+    s.async = true;
+    s.onerror = () => fail(new Error("Could not load live data"));
+    s.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + encodeURIComponent(cb);
+    document.head.appendChild(s);
   });
-  return [...m.values()].map(e=>({...e,segs:CLS.filter(c=>e.by.has(c)).map(c=>({cls:c,v:e.by.get(c)}))}))
-   .sort((a,b)=>b.total-a.total||b.segs.length-a.segs.length||a.k.localeCompare(b.k));
+}
+function bugRowsHtml(bugs, qbsMap){
+  if (!bugs.length) {
+    return '<tr><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8">No bugs</td></tr>';
+  }
+  return bugs.slice().sort((a, b) => (a.qbs || "").localeCompare(b.qbs || "")).map((b, i) => {
+    const qbs = b.qbs || "—";
+    const clsColor = CLSC[b.cls] || "#94a3b8";
+    const isOpen = b.st !== "close" && b.st !== "blocked" && b.st !== "won't fix";
+    const dot = isOpen
+      ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px"></span>'
+      : '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#94a3b8;margin-right:5px"></span>';
+    const rowBg = i % 2 === 0 ? "var(--surface,#fff)" : "var(--surface2,#f8fafc)";
+    const ltsHtml = (b.lts && b.lts.length)
+      ? b.lts.map(([id, name]) =>
+          `<a href="${CU(id)}" target="_blank" rel="noopener" style="display:block;color:var(--navy,#1e293b);text-decoration:underline;font-size:11px;white-space:nowrap;margin-bottom:2px">${esc(name)}</a>`
+        ).join("")
+      : '<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>';
+    const prHtml = b.pr
+      ? `<a href="https://github.com/ClearCalcs/dev-environment/pull/${b.pr}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline;font-size:11px">#${b.pr}</a>`
+      : '<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>';
+    const outline = b.cohort === RES_COHORT ? ";outline:2px solid #F5D76E;outline-offset:1px" : "";
+    return `<tr style="background:${rowBg}">
+      <td style="padding:7px 12px;font-family:monospace;white-space:nowrap;color:var(--grey,#64748b)">${esc(qbs)}</td>
+      <td style="padding:7px 12px;max-width:320px">
+        <a href="${esc(b.url || CU(b.id))}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline;font-size:12px">${esc(b.n)}</a>
+      </td>
+      <td style="padding:7px 12px;white-space:nowrap">
+        <span style="background:${clsColor};color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px${outline}">${esc(b.cls)}</span>
+      </td>
+      <td style="padding:7px 12px;white-space:nowrap">${dot}${esc(b.st)}</td>
+      <td style="padding:7px 12px;min-width:180px">${ltsHtml}</td>
+      <td style="padding:7px 12px;white-space:nowrap">${prHtml}</td>
+    </tr>`;
+  }).join("");
 }
 
-/* ══════════════════════════════════════════════
-   PANEL J — Bug timeline by EPIC
-   Same layout as Panel I but rows = epics
-   ══════════════════════════════════════════════ */
-(function(){
-  const QBS = window.QBS_J = window.QBS_I = {
-    "86d43u1jn":"2026-07-07","86d3takc5":"2026-04-22","86d3tcrd5":"2026-05-27",
-    "86d3ccagc":"2026-04-01","86d3xphjz":"2026-05-05","86d3nm14b":"2026-06-30","86d3nm4xj":"2026-06-30","86d3rxhe4":"2026-07-03",
-    "86d3rx6be":"2026-07-20","86d3tnny0":"2026-04-22","86d3v6c60":"2026-04-22",
-    "86d3qfh4a":"2026-06-24","86d3nm4x6":"2026-07-02","86d3brqy9":"2026-05-22",
-    "86d3p8tr5":"2026-07-05","86d2rbnec":"2026-06-15","86d3rzgjd":"2026-04-27",
-    "86d3zzw28":"2026-07-01","86d44eqby":"2026-07-21","86cz8pgpv":"2026-04-21",
-    "86d3zaeyv":"2026-05-27","86d3pntyk":"2026-06-01","86d3q55d7":"2026-07-03",
-    "86d42np3u":"2026-08-05",
-    "86d3ep54t":"2026-04-16","86d39pab2":"2026-04-02","86d2vm3u2":"2026-04-14",
-    "86d3rxhfc":"2026-07-03",
-    "86cz31dvq":"2025-05-01","86cywetmc":"2025-05-01","86cz319vz":"2025-05-01",
-    "86d0g6ahu":"2025-08-20","86d29gadv":"2025-09-11","86d0jcxzy":"2025-09-30",
-    "86d3qfh5r":"2025-10-09","86d1ymm4e":"2025-10-25","86d3q667g":"2025-12-05",
-    "86d3ku221":"2026-01-06","86d3a8ejg":"2026-01-15","86d375xcg":"2026-01-28",
-    "86d375xen":"2026-01-28","86d3q6nkq":"2026-01-29",
-    "86d3039q8":"2025-10-01","86d3tnw54":"2025-10-16","86d3qfh30":"2025-10-16",
-    "86d2ggkeh":"2025-10-27","86d2ggnur":"2026-03-31",
-    "86d0eawef":"2025-08-13","86d0eax0u":"2025-08-13","86d0b7134":"2025-08-22",
-    "86d22nxwc":"2025-08-26","86d0c7kqp":"2025-08-27","86d3n7eq8":"2025-10-13",
-    "86d3rz861":"2025-10-24","86d3rz7e9":"2025-10-24","86d3q54pe":"2026-03-27",
-    "86d2wa1yy":"2026-02-02","86d37rrpx":"2026-02-02","86d2adq36":"2026-02-24",
-    "86d43ur4n":"2026-08-21","86d43ur4z":"2026-08-21","86d43ur51":"2026-08-21",
-    "86d46yggf":"2026-08-31",
-    "86d3tcp63":"2026-07-23","86d4596av":"2026-08-26","86d4598jx":"2026-08-26","86d4598k1":"2026-08-26","86d4598kc":"2026-08-26","86d45yrvd":"2026-08-28","86d45yrvu":"2026-08-28"
+function mapPayload(data){
+  const epicsById = {};
+  (data.epics || []).forEach(row => {
+    if (!row.epic_id) return;
+    epicsById[row.epic_id] = {
+      id: row.epic_id,
+      name: row.name || row.label || row.epic_id,
+      label: row.label || row.name || row.epic_id,
+      buiId: row.bui_id || "",
+      bui: row.bui_name || "",
+      team: row.team || "",
+      beta: isoDay(row.beta),
+      close: isoDay(row.close),
+      status: row.status || "",
+      chart: isChartOn(row.chart),
+      url: row.url || CU(row.epic_id)
+    };
+  });
+  const bugs = (data.bugs || []).map(row => {
+    const cls = row.q_bug_class && String(row.q_bug_class).trim() ? row.q_bug_class : "Unclassified";
+    return {
+      id: row.id,
+      n: row.name || row.id,
+      calc: row.calculator || "",
+      epic: row.epic_raw || null,
+      epicId: row.epic_id || "",
+      list: row.list_name || null,
+      proj: row.project || "",
+      rc: row.root_cause || "",
+      cls,
+      st: String(row.status || "").toLowerCase(),
+      lts: parseLts(row.linked_tasks),
+      cohort: isTrue(row.is_res) ? RES_COHORT : undefined,
+      qbs: isoDay(row.q_bug_since),
+      url: row.url || CU(row.id)
+    };
+  });
+  return {
+    version: data.version || "",
+    generatedAt: data.generated_at || "",
+    sinceMin: isoDay(data.since_min) || "2026-05-01",
+    bugs,
+    epicsById
   };
+}
 
-  const NO_EPIC = window.NO_EPIC = "No epic";
+function boot(raw){
+  const data = mapPayload(raw);
+  const BUGS = data.bugs;
+  const epicsById = data.epicsById;
+  window.BUGS = BUGS;
+  window.NO_EPIC = NO_EPIC;
 
-  // Short epic labels for the Y axis
-  const EPIC_LABEL = window.EPIC_LABEL = {
-    "(BRACE-NEW) Internal Double Gusset-USA":          "IDG – Internal Double Gusset",
-    "LINK BRACE BM - COL-All HSS Beam to HSS Column shear": "LINK BRACE BM–COL (Shear)",
-    "(PHASE2) Shear in splices USA: HSS to HSS Splices: Add Shear": "HSS Splice: Add Shear",
-    "Sliding Snow":                                    "Sliding Snow",
-    "INV- HSS to HSS Shear":                          "INV – HSS to HSS Shear",
-    "(CONCFILL-HSSCOL) Optimized end plate connection HSS TO HSS-USA": "OEPC – HSS to HSS",
-    "CFS Column – Lateral Loads":                      "CFS Column – Lateral Loads",
-    "Base Plate Brace Loading (HSS Col)":              "Base Plate Brace Loading (HSS Col)",
-    "PLATE CONN-Round HSS - Longitudinal Plate (T-, Y-, Cross-)": "Longitudinal Plate (T/Y/Cross)",
-    "C&C – Parapet & Overhang Wind (ASCE 7-22)":      "C&C – Parapet & Overhang Wind",
-    "NBCC 2020 Snow Loads":                            "NBCC 2020 Snow Loads",
-    "ASCE 7-22 Snow Loads – Upgrades":                 "ASCE 7-22 Snow – Upgrades",
-    "ICC Means of Egress – Route Diagram":             "ICC Means of Egress",
-    "(PHASE2) Moment End Plate Splice – Rect":         "Moment Splice – Rect (Phase 2)",
-    "(BRACE-NEW) External Double Gusset-USA":          "EDG – External Double Gusset",
-    "Combined Footing (IBC 2024)":                     "Combined Footing (IBC 2024)",
-    "Steel Composite Beam (LRFD)":                     "Steel Composite Beam (LRFD)",
-    "Restrained (Basement) Retaining Wall (IBC 2024)": "Restrained RW (IBC 2024)"
-  };
+  const OPEN = b => b.st !== "close";
+  const qbsMap = {};
+  BUGS.forEach(b => { if (b.qbs) qbsMap[b.id] = b.qbs; });
+  window.QBS_I = window.QBS_J = qbsMap;
 
-  const NEW_COHORT = "res-sep-2026";
+  const epicIdsWithBugs = [...new Set(BUGS.filter(b => b.epicId).map(b => b.epicId))];
+  const traced = BUGS.filter(b => b.epicId).length;
+  const bf = new Set(epicIdsWithBugs.filter(id => epicsById[id] && epicsById[id].team === "Build Force"));
+  const b1a = new Set(epicIdsWithBugs.filter(id => epicsById[id] && epicsById[id].team === "Builder 1A"));
+  const when = data.generatedAt ? data.generatedAt.slice(0, 16).replace("T", " ") + " UTC" : "live";
+  document.getElementById("kicker").textContent = `ClearCalcs · Engineering 1000 · ${data.version || "live"}`;
+  document.getElementById("stat-tickets").textContent = String(BUGS.length);
+  document.getElementById("stat-open").textContent = String(BUGS.filter(OPEN).length);
+  document.getElementById("stat-traced").textContent = String(traced);
+  document.getElementById("stat-bf").textContent = String(bf.size);
+  document.getElementById("stat-b1a").textContent = String(b1a.size);
+  document.getElementById("live-status").textContent = `Live · ${BUGS.length} bugs · synced ${when}`;
+  document.getElementById("page-footer").innerHTML =
+    `Workspace 6927027 · Engineering 1000 · <b>${esc(data.version || "live")}</b> · Sheet generated ${esc(when)} · yellow outline = RES review`;
+
+  let axisStart = data.sinceMin.slice(0, 7) + "-01";
+  let axisEnd = new Date().toISOString().slice(0, 10);
+  BUGS.forEach(b => { if (b.qbs && b.qbs > axisEnd) axisEnd = b.qbs; });
+  Object.values(epicsById).forEach(e => {
+    if (e.beta && e.beta > axisEnd) axisEnd = e.beta;
+    if (e.close && e.close > axisEnd) axisEnd = e.close;
+  });
+  const { months: MONTHS, labels: MLBL } = monthRange(axisStart, axisEnd);
+
+  const epicFirst = {};
+  BUGS.forEach(b => {
+    if (!b.qbs || !b.epicId) return;
+    if (!epicFirst[b.epicId] || b.qbs < epicFirst[b.epicId]) epicFirst[b.epicId] = b.qbs;
+  });
+  const EPICS_ROW = Object.keys(epicFirst).sort((a, b) => epicFirst[a].localeCompare(epicFirst[b]));
+  if (BUGS.some(b => !b.epicId)) EPICS_ROW.push(NO_EPIC);
+
+  const rowMeta = {};
+  EPICS_ROW.forEach(id => {
+    if (id === NO_EPIC) {
+      rowMeta[id] = { id: NO_EPIC, name: NO_EPIC, label: NO_EPIC, team: "", url: "", beta: "", close: "" };
+      return;
+    }
+    const e = epicsById[id] || { id, name: id, label: id, team: "", url: CU(id), beta: "", close: "" };
+    rowMeta[id] = { ...e, axis: axisLabel(e) };
+  });
+
   const points = BUGS.map(b => ({
-    id:   b.id,
-    n:    b.n,
-    qbs:  QBS[b.id] || null,
-    epic: b.epic ? (EPIC_LABEL[b.epic] || b.epic) : NO_EPIC,
-    epicKey: b.epic || NO_EPIC,
-    cls:  b.cls,
+    id: b.id,
+    n: b.n,
+    qbs: b.qbs,
+    epic: b.epicId || NO_EPIC,
+    cls: b.cls,
     open: OPEN(b),
-    isNew: b.cohort === NEW_COHORT
+    isNew: b.cohort === RES_COHORT
   })).filter(p => p.qbs);
 
-  // Row order: epics sorted by earliest bug, No epic last
-  const epicFirst = {};
-  points.forEach(p => {
-    if (p.epic === NO_EPIC) return;
-    if (!epicFirst[p.epic] || p.qbs < epicFirst[p.epic]) epicFirst[p.epic] = p.qbs;
-  });
-  const EPICS_ROW = [
-    ...Object.keys(epicFirst).sort((a,b) => epicFirst[a].localeCompare(epicFirst[b])),
-    NO_EPIC
-  ];
-
-  const MONTHS = [
-    "2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12",
-    "2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"
-  ];
-  const MLBL = [
-    "May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25",
-    "Jan'26","Feb'26","Mar'26","Apr'26","May'26","Jun'26","Jul'26","Aug'26"
-  ];
-
   const LW = 200, RW = 960, PB = 38, PT = 18, ROW = 38;
-  const W  = LW + RW + 20;
-  const H  = PT + EPICS_ROW.length * ROW + PB;
-
+  const W = LW + RW + 20;
+  const H = PT + EPICS_ROW.length * ROW + PB;
   const xOf = qbs => {
-    const mo = qbs.slice(0,7);
+    const mo = qbs.slice(0, 7);
     const idx = MONTHS.indexOf(mo);
-    if (idx < 0) return null;
-    const day = parseInt(qbs.slice(8,10));
-    return LW + ((idx + (day-1)/30) / MONTHS.length) * RW;
+    if (idx < 0) return qbs < MONTHS[0] ? LW : LW + RW;
+    const day = parseInt(qbs.slice(8, 10), 10) || 1;
+    return LW + ((idx + (day - 1) / 30) / MONTHS.length) * RW;
   };
-  const yOf = epic => PT + EPICS_ROW.indexOf(epic) * ROW + ROW/2;
+  const yOf = epic => PT + EPICS_ROW.indexOf(epic) * ROW + ROW / 2;
   const monthX = i => LW + (i / MONTHS.length) * RW;
+  const xDate = iso => xOf(iso);
 
-  // ── Epic lifecycle bands ─────────────────────────────────────
-  // done-beta and close dates from ClickUp status_history (bulk call 26 Aug 2026)
-  const LIFECYCLE = {
-    "IDG – Internal Double Gusset":   { beta:"2026-06-12", close:"2026-07-02" },
-    "LINK BRACE BM–COL (Shear)":      { beta:"2026-07-03", close:"2026-07-07" },
-    "HSS Splice: Add Shear":          { beta:"2026-07-01", close:"2026-08-03" },
-    "Sliding Snow":                   { beta:"2026-06-23", close:null },
-    "INV – HSS to HSS Shear":         { beta:null,         close:"2026-07-28" },
-    "OEPC – HSS to HSS":              { beta:"2026-06-25", close:"2026-07-15" },
-    "CFS Column – Lateral Loads":     { beta:"2026-07-22", close:null },
-    "Base Plate Brace Loading (HSS Col)":       { beta:"2026-08-06", close:null },
-    "C&C – Parapet & Overhang Wind":             { beta:null, close:"2026-07-07" },
-    "NBCC 2020 Snow Loads":                      { beta:null, close:null },
-    "ASCE 7-22 Snow – Upgrades":                 { beta:null, close:"2026-07-17" },
-    "ICC Means of Egress":                       { beta:null, close:"2026-07-31" },
-    "Moment Splice – Rect (Phase 2)":            { beta:null, close:null },
-  };
-
-  const xDate = iso => {
-    const mo = iso.slice(0,7);
-    const day = parseInt(iso.slice(8,10));
-    const idx = MONTHS.indexOf(mo);
-    if (idx < 0) return iso < MONTHS[0] ? LW : LW + RW;
-    return LW + ((idx + (day-1)/30) / MONTHS.length) * RW;
-  };
-
-  let svg = `<svg class="tl" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img"
-    aria-label="Bug timeline by epic and month introduced via Q-Bug Since">`;
-
-  // Grid verticals
-  MONTHS.forEach((_,i) => {
-    svg += `<line class="tl-grid" x1="${monthX(i)}" x2="${monthX(i)}" y1="${PT}" y2="${H-PB}"/>`;
+  let svg = `<svg class="tl" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Bug timeline by epic and month introduced via Q-Bug Since">`;
+  MONTHS.forEach((_, i) => {
+    svg += `<line class="tl-grid" x1="${monthX(i)}" x2="${monthX(i)}" y1="${PT}" y2="${H - PB}"/>`;
   });
-  svg += `<line class="tl-grid" x1="${LW+RW}" x2="${LW+RW}" y1="${PT}" y2="${H-PB}"/>`;
-
-  // Grid horizontals + team colour strip
+  svg += `<line class="tl-grid" x1="${LW + RW}" x2="${LW + RW}" y1="${PT}" y2="${H - PB}"/>`;
   EPICS_ROW.forEach((ep, i) => {
     const y = PT + i * ROW;
-    svg += `<line class="tl-grid" x1="${LW}" x2="${LW+RW}" y1="${y}" y2="${y}"/>`;
-    // Colour strip by team
-    const epicRaw = Object.keys(EPIC_LABEL).find(k => EPIC_LABEL[k] === ep);
-    const team = epicRaw && EPICS[epicRaw] ? EPICS[epicRaw].team : null;
+    svg += `<line class="tl-grid" x1="${LW}" x2="${LW + RW}" y1="${y}" y2="${y}"/>`;
+    const team = rowMeta[ep].team;
     const stripColor = team === "Build Force" ? "rgba(15,118,110,.07)"
-                     : team === "Builder 1A"  ? "rgba(124,58,237,.07)"
-                     : ep === NO_EPIC         ? "rgba(0,0,0,.025)"
-                     : "transparent";
+      : team === "Builder 1A" ? "rgba(124,58,237,.07)"
+      : ep === NO_EPIC ? "rgba(0,0,0,.025)"
+      : "transparent";
     svg += `<rect x="${LW}" y="${y}" width="${RW}" height="${ROW}" fill="${stripColor}"/>`;
-    // Borde inferior de cada fila
-    svg += `<line class="tl-grid" x1="${LW}" x2="${LW+RW}" y1="${y+ROW}" y2="${y+ROW}"/>`;
+    svg += `<line class="tl-grid" x1="${LW}" x2="${LW + RW}" y1="${y + ROW}" y2="${y + ROW}"/>`;
   });
-
-  // Axis
-  svg += `<line class="tl-axis" x1="${LW}" x2="${LW+RW}" y1="${H-PB}" y2="${H-PB}"/>`;
-
-  // Month labels + count badges
+  svg += `<line class="tl-axis" x1="${LW}" x2="${LW + RW}" y1="${H - PB}" y2="${H - PB}"/>`;
   MONTHS.forEach((mo, i) => {
-    const x = monthX(i) + RW/MONTHS.length/2;
-    svg += `<text class="tl-axl" x="${x}" y="${H-PB+16}">${MLBL[i]}</text>`;
+    const x = monthX(i) + RW / MONTHS.length / 2;
+    svg += `<text class="tl-axl" x="${x}" y="${H - PB + 16}">${MLBL[i]}</text>`;
     const cnt = points.filter(p => p.qbs.startsWith(mo)).length;
-    if (cnt) svg += `<text class="tl-mo" x="${x}" y="${PT-6}">${cnt}</text>`;
+    if (cnt) svg += `<text class="tl-mo" x="${x}" y="${PT - 6}">${cnt}</text>`;
   });
-
-  // Epic labels: two clickable zones
-  // 1. Epic name → opens ClickUp
-  // 2. "≡" list icon injected as HTML buttons after SVG render (onclick not reliable in SVG innerHTML)
   EPICS_ROW.forEach(ep => {
     const y = yOf(ep);
-    const epicRawKey = Object.keys(EPIC_LABEL).find(k => EPIC_LABEL[k] === ep);
-    const epicData = epicRawKey && EPICS[epicRawKey] ? EPICS[epicRawKey] : null;
-    const epicUrl = epicData ? `https://app.clickup.com/t/${epicData.epicId}` : null;
-    const teamSuffix = "";
-
-    // Epic name → ClickUp link
-    if (epicUrl) {
-      svg += `<a href="${epicUrl}" target="_blank" rel="noopener">
-        <text class="tl-calc" x="${LW-10}" y="${y}"
-          style="fill:var(--navy,#2E3A87);text-decoration:underline;cursor:pointer">${ep}${teamSuffix}</text>
-      </a>`;
+    const meta = rowMeta[ep];
+    const label = esc(meta.axis || meta.label || ep);
+    if (meta.url && ep !== NO_EPIC) {
+      svg += `<a href="${esc(meta.url)}" target="_blank" rel="noopener"><text class="tl-calc" x="${LW - 10}" y="${y}" style="fill:var(--navy,#2E3A87);text-decoration:underline;cursor:pointer">${label}</text></a>`;
     } else {
-      svg += `<text class="tl-calc" x="${LW-10}" y="${y}">${ep}${teamSuffix}</text>`;
+      svg += `<text class="tl-calc" x="${LW - 10}" y="${y}">${label}</text>`;
     }
   });
 
-  // Dots with jitter
   const jitter = {};
   points.forEach(p => {
-    const mo = p.qbs.slice(0,7);
-    const key = `${p.epic}|${mo}`;
-    jitter[key] = (jitter[key] || 0);
-    p._slot = jitter[key];
-    jitter[key]++;
+    const key = `${p.epic}|${p.qbs.slice(0, 7)}`;
+    p._slot = jitter[key] || 0;
+    jitter[key] = p._slot + 1;
   });
-
   points.forEach(p => {
     const x = xOf(p.qbs);
-    if (x === null) return;
+    if (x == null) return;
     const baseY = yOf(p.epic);
-    const mo = p.qbs.slice(0,7);
-    const total = jitter[`${p.epic}|${mo}`];
-    const rawOffset = total > 1 ? (p._slot - (total-1)/2) * 10 : 0;
-    // Clampear para que el dot no salga de los límites de su fila
-    const margin = 8; // radio máximo del dot/diamond
-    const maxOff = ROW/2 - margin;
-    const offset = Math.max(-maxOff, Math.min(maxOff, rawOffset));
+    const total = jitter[`${p.epic}|${p.qbs.slice(0, 7)}`];
+    const rawOffset = total > 1 ? (p._slot - (total - 1) / 2) * 10 : 0;
+    const offset = Math.max(-(ROW / 2 - 8), Math.min(ROW / 2 - 8, rawOffset));
     const cx = parseFloat(x.toFixed(1));
-    const cy = parseFloat((baseY+offset).toFixed(1));
-    const c = CLSC[p.cls] || '#C3C7CE';
-    const stroke = p.isNew ? '#F5D76E' : '#fff';
-    const sw = p.isNew ? '2.5' : '1.5';
-    const tip = `${p.id} — ${p.n}\nQ-Bug Since: ${p.qbs} · ${p.cls}${p.open?' · OPEN':''}${p.isNew?' · RES 3rd-party':''}`;
+    const cy = parseFloat((baseY + offset).toFixed(1));
+    const c = CLSC[p.cls] || "#C3C7CE";
+    const stroke = p.isNew ? "#F5D76E" : "#fff";
+    const sw = p.isNew ? "2.5" : "1.5";
+    const tip = esc(`${p.id} — ${p.n}\nQ-Bug Since: ${p.qbs} · ${p.cls}${p.open ? " · OPEN" : ""}${p.isNew ? " · RES 3rd-party" : ""}`);
     if (p.open) {
       const s = 7;
-      const pts = `${cx},${cy-s} ${cx+s},${cy} ${cx},${cy+s} ${cx-s},${cy}`;
-      svg += `<a href="https://app.clickup.com/t/${p.id}" target="_blank" rel="noopener">
-        <polygon class="tl-dot" points="${pts}" fill="${c}" stroke="${stroke}" stroke-width="${sw}">
-          <title>${tip}</title></polygon></a>`;
+      const pts = `${cx},${cy - s} ${cx + s},${cy} ${cx},${cy + s} ${cx - s},${cy}`;
+      svg += `<a href="${CU(p.id)}" target="_blank" rel="noopener"><polygon class="tl-dot" points="${pts}" fill="${c}" stroke="${stroke}" stroke-width="${sw}"><title>${tip}</title></polygon></a>`;
     } else {
-      svg += `<a href="https://app.clickup.com/t/${p.id}" target="_blank" rel="noopener">
-        <circle class="tl-dot" cx="${cx}" cy="${cy}" r="6" fill="${c}" stroke="${stroke}" stroke-width="${sw}">
-          <title>${tip}</title></circle></a>`;
+      svg += `<a href="${CU(p.id)}" target="_blank" rel="noopener"><circle class="tl-dot" cx="${cx}" cy="${cy}" r="6" fill="${c}" stroke="${stroke}" stroke-width="${sw}"><title>${tip}</title></circle></a>`;
     }
   });
 
-  // Draw lifecycle bands and close SVG
-  let bands = '';
+  let bands = "";
   EPICS_ROW.forEach(ep => {
     if (ep === NO_EPIC) return;
-    const lc = LIFECYCLE[ep];
-    if (!lc) return;
-    const rowY  = yOf(ep);
-    const rowT  = rowY - ROW/2;
-    const rowH  = ROW;
-
+    const lc = rowMeta[ep];
+    if (!lc || (!lc.beta && !lc.close)) return;
+    const rowY = yOf(ep);
+    const rowT = rowY - ROW / 2;
+    const rowH = ROW;
     if (lc.beta && lc.close) {
-      // Shaded band beta→close
-      const x1 = xDate(lc.beta);
-      const x2 = xDate(lc.close);
-      bands += `<rect x="${x1.toFixed(1)}" y="${rowT}" width="${(x2-x1).toFixed(1)}" height="${rowH}"
-        fill="rgba(255,200,0,.13)" rx="2"/>`;
+      const x1 = xDate(lc.beta), x2 = xDate(lc.close);
+      bands += `<rect x="${x1.toFixed(1)}" y="${rowT}" width="${(x2 - x1).toFixed(1)}" height="${rowH}" fill="rgba(255,200,0,.13)" rx="2"/>`;
     } else if (lc.beta && !lc.close) {
-      // Beta reached but not closed yet — band from beta to end of chart
       const x1 = xDate(lc.beta);
-      bands += `<rect x="${x1.toFixed(1)}" y="${rowT}" width="${(LW+RW-x1).toFixed(1)}" height="${rowH}"
-        fill="rgba(255,200,0,.10)" rx="2"/>`;
+      bands += `<rect x="${x1.toFixed(1)}" y="${rowT}" width="${(LW + RW - x1).toFixed(1)}" height="${rowH}" fill="rgba(255,200,0,.10)" rx="2"/>`;
     }
-
-    // done-beta line
     if (lc.beta) {
       const xb = xDate(lc.beta);
-      bands += `<line x1="${xb.toFixed(1)}" x2="${xb.toFixed(1)}"
-        y1="${rowT+4}" y2="${rowT+rowH-4}"
-        stroke="#B08A2E" stroke-width="2" stroke-dasharray="4 3" opacity="0.9"/>`;
-      bands += `<text x="${xb.toFixed(1)}" y="${rowT+rowH-5}" text-anchor="middle"
-        style="font-size:8px;font-weight:700;fill:#B08A2E;font-family:Inter,sans-serif">β</text>`;
+      bands += `<line x1="${xb.toFixed(1)}" x2="${xb.toFixed(1)}" y1="${rowT + 4}" y2="${rowT + rowH - 4}" stroke="#B08A2E" stroke-width="2" stroke-dasharray="4 3" opacity="0.9"/>`;
+      bands += `<text x="${xb.toFixed(1)}" y="${rowT + rowH - 5}" text-anchor="middle" style="font-size:8px;font-weight:700;fill:#B08A2E;font-family:Inter,sans-serif">β</text>`;
     }
-
-    // close line + 30d post-close band
     if (lc.close) {
       const xc = xDate(lc.close);
-      // 30d band after close
-      const closeDate = new Date(lc.close);
-      const d30 = new Date(closeDate); d30.setDate(d30.getDate()+30);
-      const d30str = d30.toISOString().slice(0,10);
+      const closeDate = new Date(lc.close + "T00:00:00");
+      closeDate.setDate(closeDate.getDate() + 30);
+      const d30str = closeDate.toISOString().slice(0, 10);
       const x30 = xDate(d30str);
-      bands += `<rect x="${xc.toFixed(1)}" y="${rowT}" width="${(x30-xc).toFixed(1)}" height="${rowH}"
-        fill="rgba(239,68,68,.10)" rx="2"/>`;
-      bands += `<line x1="${xc.toFixed(1)}" x2="${xc.toFixed(1)}"
-        y1="${rowT+4}" y2="${rowT+rowH-4}"
-        stroke="#008844" stroke-width="2" opacity="0.85"/>`;
-      bands += `<text x="${xc.toFixed(1)}" y="${rowT+rowH-5}" text-anchor="middle"
-        style="font-size:8px;font-weight:700;fill:#008844;font-family:Inter,sans-serif">✓</text>`;
-      // 30d end line (dashed)
-      if (x30 <= LW+RW) {
-        bands += `<line x1="${x30.toFixed(1)}" x2="${x30.toFixed(1)}"
-          y1="${rowT+4}" y2="${rowT+rowH-4}"
-          stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>`;
+      bands += `<rect x="${xc.toFixed(1)}" y="${rowT}" width="${(x30 - xc).toFixed(1)}" height="${rowH}" fill="rgba(239,68,68,.10)" rx="2"/>`;
+      bands += `<line x1="${xc.toFixed(1)}" x2="${xc.toFixed(1)}" y1="${rowT + 4}" y2="${rowT + rowH - 4}" stroke="#008844" stroke-width="2" opacity="0.85"/>`;
+      bands += `<text x="${xc.toFixed(1)}" y="${rowT + rowH - 5}" text-anchor="middle" style="font-size:8px;font-weight:700;fill:#008844;font-family:Inter,sans-serif">✓</text>`;
+      if (x30 <= LW + RW) {
+        bands += `<line x1="${x30.toFixed(1)}" x2="${x30.toFixed(1)}" y1="${rowT + 4}" y2="${rowT + rowH - 4}" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>`;
       }
     }
   });
+  svg += bands + "</svg>";
 
-  // Close SVG with bands injected before the closing tag
-  svg += bands + '</svg>';
-
-  document.getElementById('tl-epic-chart').innerHTML = svg;
-
-  // ── Inject HTML list-buttons over the SVG Y axis ──────────────────────────
-  // We can't rely on onclick in SVG generated as innerHTML, so we overlay
-  // real <button> elements positioned to match each epic row.
-  const chartDiv = document.getElementById('tl-epic-chart');
-  chartDiv.style.position = 'relative';
-  // The SVG element just added
-  const svgEl = chartDiv.querySelector('svg');
-  // Scale factor: SVG viewBox vs rendered width
+  const chartDiv = document.getElementById("tl-epic-chart");
+  chartDiv.innerHTML = svg;
+  chartDiv.style.position = "relative";
+  const svgEl = chartDiv.querySelector("svg");
   const getScale = () => svgEl ? svgEl.getBoundingClientRect().width / W : 1;
-
   EPICS_ROW.forEach(ep => {
-    const yCoord = yOf(ep);  // SVG coordinate
-    const btn = document.createElement('button');
-    btn.textContent = '≡';
-    btn.title = 'Show bug list';
-    btn.setAttribute('data-epic', ep);
-    btn.style.cssText = `
-      position:absolute;
-      left:2px;
-      top:0;
-      transform:translateY(${yCoord}px) translateY(-50%);
-      transform-origin:left center;
-      background:none;border:none;cursor:pointer;
-      font-size:14px;font-weight:700;
-      color:var(--navy,#2E3A87);
-      padding:2px 4px;
-      line-height:1;
-      border-radius:3px;
-      opacity:0.7;
-      transition:opacity .15s, background .15s;
-    `;
-    btn.addEventListener('mouseenter', () => { btn.style.opacity='1'; btn.style.background='rgba(46,58,135,.08)'; });
-    btn.addEventListener('mouseleave', () => { btn.style.opacity='0.7'; btn.style.background='none'; });
-    btn.addEventListener('click', () => window.showEpicBugs(ep));
-
-    // Reposition on resize to track SVG scaling
-    const reposition = () => {
-      const scale = getScale();
-      btn.style.transform = `translateY(${yCoord * scale}px) translateY(-50%)`;
-    };
-    window.addEventListener('resize', reposition, {passive:true});
-    // Initial position after layout
+    const yCoord = yOf(ep);
+    const btn = document.createElement("button");
+    btn.textContent = "≡";
+    btn.title = "Show bug list";
+    btn.style.cssText = "position:absolute;left:2px;top:0;transform-origin:left center;background:none;border:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--navy,#2E3A87);padding:2px 4px;line-height:1;border-radius:3px;opacity:0.7";
+    btn.addEventListener("mouseenter", () => { btn.style.opacity = "1"; btn.style.background = "rgba(46,58,135,.08)"; });
+    btn.addEventListener("mouseleave", () => { btn.style.opacity = "0.7"; btn.style.background = "none"; });
+    btn.addEventListener("click", () => window.showEpicBugs(ep));
+    const reposition = () => { btn.style.transform = `translateY(${yCoord * getScale()}px) translateY(-50%)`; };
+    window.addEventListener("resize", reposition, { passive: true });
     requestAnimationFrame(reposition);
-
     chartDiv.appendChild(btn);
   });
 
-  // Legend
   const usedCls = [...new Set(points.map(p => p.cls))];
-  document.getElementById('tl-epic-legend').innerHTML =
-    usedCls.map(c => `<span class="tl-lg"><i style="background:${CLSC[c]}"></i>${c}</span>`).join('') +
+  document.getElementById("tl-epic-legend").innerHTML =
+    usedCls.map(c => `<span class="tl-lg"><i style="background:${CLSC[c] || "#C3C7CE"}"></i>${esc(c)}</span>`).join("") +
     `<span class="tl-lg"><svg width="12" height="12" viewBox="0 0 12 12" style="display:inline-block;vertical-align:-2px"><circle cx="6" cy="6" r="5" fill="#666"/></svg>&nbsp;Closed</span>` +
     `<span class="tl-lg"><svg width="14" height="14" viewBox="0 0 14 14" style="display:inline-block;vertical-align:-3px"><polygon points="7,1 13,7 7,13 1,7" fill="#666"/></svg>&nbsp;Open</span>` +
     `<span class="tl-lg"><svg width="14" height="14" viewBox="0 0 14 14" style="display:inline-block;vertical-align:-3px"><polygon points="7,1 13,7 7,13 1,7" fill="#5A66A8" stroke="#F5D76E" stroke-width="2"/></svg>&nbsp;RES (yellow outline)</span>` +
     `<span class="tl-lg"><i style="background:rgba(15,118,110,.18);border:1px solid #0f766e;border-radius:2px;width:18px;height:11px"></i>Build Force row</span>` +
     `<span class="tl-lg"><i style="background:rgba(124,58,237,.18);border:1px solid #7c3aed;border-radius:2px;width:18px;height:11px"></i>Builder 1A row</span>` +
     `<span class="tl-lg"><svg width="18" height="12" viewBox="0 0 18 12" style="display:inline-block;vertical-align:-2px"><rect x="0" y="0" width="18" height="12" fill="rgba(255,200,0,.2)" rx="2"/></svg>&nbsp;Beta → Close window</span>` +
-    `<span class="tl-lg"><svg width="14" height="12" viewBox="0 0 14 12" style="display:inline-block;vertical-align:-2px"><line x1="7" y1="1" x2="7" y2="11" stroke="#B08A2E" stroke-width="2" stroke-dasharray="3 2"/><text x="7" y="11" text-anchor="middle" style="font-size:8px;font-weight:700;fill:#B08A2E">β</text></svg>&nbsp;Done-beta</span>` +
+    `<span class="tl-lg"><svg width="14" height="12" viewBox="0 0 14 12" style="display:inline-block;vertical-align:-2px"><line x1="7" y1="1" x2="7" y2="11" stroke="#B08A2E" stroke-width="2" stroke-dasharray="3 2"/></svg>&nbsp;Done-beta</span>` +
     `<span class="tl-lg"><svg width="18" height="12" viewBox="0 0 18 12" style="display:inline-block;vertical-align:-2px"><rect x="0" y="0" width="18" height="12" fill="rgba(239,68,68,.18)" rx="2"/></svg>&nbsp;30d post-close</span>` +
-    `<span class="tl-lg"><svg width="14" height="12" viewBox="0 0 14 12" style="display:inline-block;vertical-align:-2px"><line x1="7" y1="1" x2="7" y2="11" stroke="#008844" stroke-width="2"/><text x="7" y="11" text-anchor="middle" style="font-size:8px;font-weight:700;fill:#008844">✓</text></svg>&nbsp;Closed</span>`;
+    `<span class="tl-lg"><svg width="14" height="12" viewBox="0 0 14 12" style="display:inline-block;vertical-align:-2px"><line x1="7" y1="1" x2="7" y2="11" stroke="#008844" stroke-width="2"/></svg>&nbsp;Closed</span>`;
 
-  // showEpicBugs — drawer with bug list for a given epic label
-  const QBS_J = window.QBS_J || {};
-  const CLSC_J = CLSC;
-
-  window.showEpicBugs = function(epicLabel) {
-    const epicKey = Object.keys(EPIC_LABEL).find(k => EPIC_LABEL[k] === epicLabel) || epicLabel;
-    const bugs = epicLabel === NO_EPIC
-      ? BUGS.filter(b => !b.epic)
-      : BUGS.filter(b => b.epic === epicKey);
-
-    document.getElementById('epic-drawer-title').textContent =
-      `${epicLabel} — ${bugs.length} bug${bugs.length!==1?'s':''}`;
-
-    const rows = bugs
-      .sort((a,b) => (QBS_J[a.id]||'').localeCompare(QBS_J[b.id]||''))
-      .map((b, i) => {
-        const qbs = QBS_J[b.id] || '—';
-        const clsColor = CLSC_J[b.cls] || '#94a3b8';
-        const isOpen = b.st !== 'close' && b.st !== 'blocked' && b.st !== "won't fix";
-        const dot = isOpen
-          ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px"></span>`
-          : `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#94a3b8;margin-right:5px"></span>`;
-        const rowBg = i%2===0 ? 'var(--surface,#fff)' : 'var(--surface2,#f8fafc)';
-        const ltsHtml = (b.lts && b.lts.length)
-          ? b.lts.map(([id,name]) =>
-              `<a href="https://app.clickup.com/t/${id}" target="_blank" rel="noopener"
-                style="display:block;color:var(--navy,#1e293b);text-decoration:underline;font-size:11px;white-space:nowrap;margin-bottom:2px">${name}</a>`
-            ).join('')
-          : b.pr
-            ? `<span style="color:var(--grey,#94a3b8);font-size:11px">No linked task</span>`
-            : `<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>`;
-        const prHtml = b.pr
-          ? `<a href="https://github.com/ClearCalcs/dev-environment/pull/${b.pr}" target="_blank" rel="noopener"
-               style="color:var(--navy,#1e293b);text-decoration:underline;font-size:11px">#${b.pr}</a>`
-          : `<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>`;
-        return `<tr style="background:${rowBg}">
-          <td style="padding:7px 12px;font-family:monospace;white-space:nowrap;color:var(--grey,#64748b)">${qbs}</td>
-          <td style="padding:7px 12px;max-width:320px">
-            <a href="https://app.clickup.com/t/${b.id}" target="_blank" rel="noopener"
-              style="color:var(--navy,#1e293b);text-decoration:underline;font-size:12px">${b.n}</a>
-          </td>
-          <td style="padding:7px 12px;white-space:nowrap">
-            <span style="background:${clsColor};color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px${b.cohort==='res-sep-2026'?';outline:2px solid #F5D76E;outline-offset:1px':''}">${b.cls}</span>
-          </td>
-          <td style="padding:7px 12px;white-space:nowrap">${dot}${b.st}</td>
-          <td style="padding:7px 12px;min-width:180px">${ltsHtml}</td>
-          <td style="padding:7px 12px;white-space:nowrap">${prHtml}</td>
-        </tr>`;
-      }).join('');
-
-    document.getElementById('epic-bug-tbody').innerHTML = rows ||
-      '<tr><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8">No bugs</td></tr>';
-    const drawer = document.getElementById('epic-bug-drawer');
-    drawer.style.display = 'block';
-    drawer.scrollIntoView({behavior:'smooth', block:'nearest'});
-  };
-})();
-
-
-/* ══════════════════════════════════════════════
-   PANEL M — Epic bugs by lifecycle milestone
-   3 scatter charts: bugs@beta, bugs 30d post-close, bugs 90d post-close
-   ══════════════════════════════════════════════ */
-(function(){
-  const EPICS = [
-    {epic:"IDG",              label:"IDG – Internal Double Gusset",       beta:"2026-06-12", close:"2026-07-02", at_beta:2, b30d:1, b90d:1},
-    {epic:"LINK BRACE",       label:"LINK BRACE BM–COL (Shear)",          beta:"2026-07-03", close:"2026-07-07", at_beta:3, b30d:0, b90d:0},
-    {epic:"HSS Splice Shear", label:"HSS Splice: Add Shear",              beta:"2026-07-01", close:"2026-08-03", at_beta:0, b30d:0, b90d:0},
-    {epic:"INV Shear",        label:"INV – HSS to HSS Shear",             beta:null,         close:"2026-07-28", at_beta:null,b30d:0,b90d:0},
-    {epic:"OEPC",             label:"OEPC – HSS to HSS",                  beta:"2026-06-25", close:"2026-07-15", at_beta:1, b30d:0, b90d:0},
-    {epic:"CFS Col",          label:"CFS Column – Lateral Loads",         beta:"2026-07-22", close:null,         at_beta:1, b30d:null,b90d:null},
-    {epic:"Base Plate",       label:"Base Plate Brace Loading (HSS Col)", beta:"2026-08-06", close:null,         at_beta:1, b30d:null,b90d:null},
-    {epic:"Sliding Snow",     label:"Sliding Snow",                       beta:"2026-06-23", close:null,         at_beta:1, b30d:null,b90d:null},
-    {epic:"C&C Wind",         label:"C&C – Parapet & Overhang Wind (ASCE 7-22)", beta:null, close:"2026-07-07", at_beta:0, b30d:0, b90d:0},
-    {epic:"NBCC Snow",        label:"NBCC 2020 Snow Loads",               beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-    {epic:"ASCE Snow",        label:"ASCE 7-22 Snow Loads – Upgrades",   beta:null, close:"2026-07-17", at_beta:0, b30d:0, b90d:0},
-    {epic:"ICC MoE",          label:"ICC Means of Egress – Route Diagram",beta:null, close:"2026-07-31", at_beta:1, b30d:0, b90d:0},
-    {epic:"Moment Splice",    label:"(PHASE2) Moment End Plate Splice – Rect", beta:null, close:null, at_beta:1, b30d:0, b90d:0},
-    {epic:"Longitudinal Plate", label:"Longitudinal Plate (T/Y/Cross)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-    {epic:"EDG",             label:"EDG – External Double Gusset", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-    {epic:"Combined Footing", label:"Combined Footing (IBC 2024)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-    {epic:"Composite Beam",   label:"Steel Composite Beam (LRFD)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-    {epic:"Restrained RW",    label:"Restrained RW (IBC 2024)", beta:null, close:null, at_beta:0, b30d:null, b90d:null},
-  ];
-
-  // Epic → calc mapping for bug lookup
-  const EPIC_TO_CALC = {
-    "IDG – Internal Double Gusset":       "Column Bracing",
-    "LINK BRACE BM–COL (Shear)":          "HSS to HSS Shear",
-    "HSS Splice: Add Shear":              "HSS to HSS Splice",
-    "INV – HSS to HSS Shear":             "HSS to HSS Shear",
-    "OEPC – HSS to HSS":                  "Concrete-Filled HSS Moment",
-    "CFS Column – Lateral Loads":         "US CFS Columns",
-    "Base Plate Brace Loading (HSS Col)": "HSS Steel Base Plate",
-    "Longitudinal Plate (T/Y/Cross)":     "Longitudinal Plate to HSS",
-    "EDG – External Double Gusset": "Column Bracing",
-    "Combined Footing (IBC 2024)": "Combined Footing",
-    "Steel Composite Beam (LRFD)": "Composite Beam LRFD",
-    "Restrained RW (IBC 2024)": "Restrained Retaining Wall",
-    "Sliding Snow":                       "US Snow Loads",
+  window.showEpicBugs = function(epicId){
+    const bugs = epicId === NO_EPIC ? BUGS.filter(b => !b.epicId) : BUGS.filter(b => b.epicId === epicId);
+    const title = epicId === NO_EPIC ? NO_EPIC : (rowMeta[epicId] && (rowMeta[epicId].name || rowMeta[epicId].label)) || epicId;
+    document.getElementById("epic-drawer-title").textContent = `${title} — ${bugs.length} bug${bugs.length !== 1 ? "s" : ""}`;
+    document.getElementById("epic-bug-tbody").innerHTML = bugRowsHtml(bugs, qbsMap);
+    const drawer = document.getElementById("epic-bug-drawer");
+    drawer.style.display = "block";
+    drawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
-  // Class 2/3 filter
-  const EPIC_BUG_IDS = {
-    "IDG – Internal Double Gusset":       ["86d3tcrd5","86d3zaeyv","86d3rxhfc"],
-    "LINK BRACE BM–COL (Shear)":          ["86d3rxhe4","86d3q55d7"],
-    "HSS Splice: Add Shear":              [],
-    "INV – HSS to HSS Shear":             ["86d44eqby"],
-    "OEPC – HSS to HSS":                  ["86d3qfh4a"],
-    "CFS Column – Lateral Loads":         ["86d43u1jn"],
-    "Base Plate Brace Loading (HSS Col)": ["86d42np3u","86d46yggf"],
-    "Longitudinal Plate (T/Y/Cross)":     ["86d43ur4n","86d43ur4z","86d43ur51"],
-    "EDG – External Double Gusset": ["86d3tcp63"],
-    "Combined Footing (IBC 2024)": ["86d4596av"],
-    "Steel Composite Beam (LRFD)": ["86d4598jx","86d4598k1","86d4598kc"],
-    "Restrained RW (IBC 2024)": ["86d45yrvd","86d45yrvu"],
-    "Sliding Snow":                       ["86d3jwfgx"],
-    "C&C – Parapet & Overhang Wind (ASCE 7-22)": ["86d3nm4x6","86d3nm4xj"],
-    "NBCC 2020 Snow Loads":              ["86d3p8tr5"],
-    "ASCE 7-22 Snow Loads – Upgrades":  ["86d3nm14b"],    "ICC Means of Egress – Route Diagram": ["86d3xphjz"],
-    "(PHASE2) Moment End Plate Splice – Rect": ["86d3ccagc"],
-  };
-  const HIGH_CLS = new Set(["Class 2a - High","Class 2b - Very High","Class 3 - Critical"]);
-  const RES_COHORT = "res-sep-2026";
-  let currentFilter = 'all';
+  const chartEpics = epicIdsWithBugs
+    .map(id => epicsById[id])
+    .filter(e => e && e.chart)
+    .map(e => ({
+      id: e.id,
+      label: axisLabel(e),
+      name: e.name,
+      beta: e.beta || null,
+      close: e.close || null,
+      url: e.url
+    }));
+  const usedLabels = new Set();
+  chartEpics.forEach(e => {
+    let lab = e.label;
+    let n = 2;
+    while (usedLabels.has(lab)) { lab = `${e.label} (${n})`; n += 1; }
+    usedLabels.add(lab);
+    e.label = lab;
+  });
+  window._M_EPICS = chartEpics;
+  const closedEpics = chartEpics.filter(e => e.close);
+  let currentFilter = "all";
 
-  function applyBugClassFilter(bugs, filter) {
-    if (filter === 'class23') return bugs.filter(b => HIGH_CLS.has(b.cls));
-    if (filter === 'res') return bugs.filter(b => b.cohort === RES_COHORT);
+  function applyBugClassFilter(bugs, filter){
+    if (filter === "class23") return bugs.filter(b => HIGH_CLS.has(b.cls));
+    if (filter === "res") return bugs.filter(b => b.cohort === RES_COHORT);
     return bugs;
   }
-
-  function bugsForEpic(epicLabel, filter) {
-    const ids = EPIC_BUG_IDS[epicLabel] || [];
-    return applyBugClassFilter(BUGS.filter(b => ids.includes(b.id)), filter);
+  function bugsForEpic(epicId, filter){
+    return applyBugClassFilter(BUGS.filter(b => b.epicId === epicId), filter);
   }
-  function firstQbs(epicLabel, filter) {
-    const QBS = window.QBS_I || {};
-    return bugsForEpic(epicLabel, filter).map(b => QBS[b.id]).filter(Boolean).sort()[0] || null;
+  function firstQbs(epicId, filter){
+    return bugsForEpic(epicId, filter).map(b => b.qbs).filter(Boolean).sort()[0] || null;
   }
-
-  // Compute counts per epic per window, optionally filtered
-  function epicCount(epicLabel, windowKey, filter) {
-    const QBS = window.QBS_I || {};
-    let bugs = bugsForEpic(epicLabel, filter);
-    const epic = EPICS.find(e => e.label === epicLabel);
+  function epicCount(epicId, windowKey, filter){
+    const epic = chartEpics.find(e => e.id === epicId);
     if (!epic) return 0;
-    if (windowKey === 'beta') {
-      // Chart 1: bugs found before close. Open epics: all bugs so far.
-      if (epic.close) return bugs.filter(b => (QBS[b.id]||'') <= epic.close).length;
+    const bugs = bugsForEpic(epicId, filter);
+    if (windowKey === "beta") {
+      if (epic.close) return bugs.filter(b => (b.qbs || "") <= epic.close).length;
       return bugs.length;
     }
     if (!epic.close) return null;
-    const days = windowKey === '30d' ? 30 : 90;
-    const d = new Date(epic.close); d.setDate(d.getDate()+days);
-    return bugs.filter(b => (QBS[b.id]||'') > epic.close && (QBS[b.id]||'') <= d.toISOString().slice(0,10)).length;
+    const days = windowKey === "30d" ? 30 : 90;
+    const d = new Date(epic.close + "T00:00:00");
+    d.setDate(d.getDate() + days);
+    const until = d.toISOString().slice(0, 10);
+    return bugs.filter(b => (b.qbs || "") > epic.close && (b.qbs || "") <= until).length;
   }
 
-  const escXml = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-
-  // Generic scatter + trend line builder
-  function makeScatter(title, xLabel, points, windowKey) {
-    const W=900, H=400, PL=50, PR=24, PT=40, PB=64;
-    const plotW = W-PL-PR, plotH = H-PT-PB;
-
+  function makeScatter(title, xLabel, points, windowKey){
+    const W = 900, H = 400, PL = 50, PR = 24, PT = 40, PB = 64;
+    const plotW = W - PL - PR, plotH = H - PT - PB;
     const validPts = points.filter(p => p.x && p.y !== null);
-    const allPts   = validPts;
-    const xs = allPts.length ? allPts.map(p => new Date(p.x).getTime())
-                             : [new Date('2026-03-01').getTime(), new Date('2026-08-26').getTime()];
+    const xs = validPts.length ? validPts.map(p => new Date(p.x).getTime())
+      : [new Date(axisStart).getTime(), new Date(axisEnd).getTime()];
     const ys = validPts.filter(p => p.y > 0).map(p => p.y);
     const xMin = Math.min(...xs), xMax = Math.max(...xs);
     const yMin = 0, yMax = ys.length ? Math.max(...ys) + 1 : 3;
-    const padding = (xMax === xMin) ? 30*24*60*60*1000 : 0;
+    const padding = (xMax === xMin) ? 30 * 24 * 60 * 60 * 1000 : 0;
     const xRange = (xMax - xMin) || 1;
-
-    const px = ms => PL + ((ms - (xMin - padding)) / (xRange + 2*padding)) * plotW;
-    const py = v  => PT + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
-
-    // Trend line (linear regression, only non-zero points)
+    const px = ms => PL + ((ms - (xMin - padding)) / (xRange + 2 * padding)) * plotW;
+    const py = v => PT + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
     const trendPts = validPts.filter(p => p.y > 0);
     const n = trendPts.length;
     const trendXs = trendPts.map(p => new Date(p.x).getTime());
     const trendYs = trendPts.map(p => p.y);
-    const meanX = n ? trendXs.reduce((s,v)=>s+v,0)/n : 0;
-    const meanY = n ? trendYs.reduce((s,v)=>s+v,0)/n : 0;
-    const num = trendXs.reduce((s,v,i)=>s+(v-meanX)*(trendYs[i]-meanY),0);
-    const den = trendXs.reduce((s,v)=>s+(v-meanX)**2,0);
-    const slope = den ? num/den : 0;
-    const inter = meanY - slope*meanX;
-    const trendY = ms => inter + slope*ms;
-
-    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;border:1px solid #e2e8f0;border-radius:10px;background:#fff" role="img">`;
-
-    // Title
-    svg += `<text x="${PL}" y="22" font-size="13" font-weight="700" fill="#1e293b">${title}</text>`;
-
-    // Y axis grid + labels
-    const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
-    yTicks.forEach(v => {
+    const meanX = n ? trendXs.reduce((s, v) => s + v, 0) / n : 0;
+    const meanY = n ? trendYs.reduce((s, v) => s + v, 0) / n : 0;
+    const num = trendXs.reduce((s, v, i) => s + (v - meanX) * (trendYs[i] - meanY), 0);
+    const den = trendXs.reduce((s, v) => s + (v - meanX) ** 2, 0);
+    const slope = den ? num / den : 0;
+    const inter = meanY - slope * meanX;
+    const trendY = ms => inter + slope * ms;
+    let out = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;border:1px solid #e2e8f0;border-radius:10px;background:#fff" role="img">`;
+    out += `<text x="${PL}" y="22" font-size="13" font-weight="700" fill="#1e293b">${esc(title)}</text>`;
+    Array.from({ length: yMax + 1 }, (_, i) => i).forEach(v => {
       const y = py(v);
-      svg += `<line x1="${PL}" x2="${W-PR}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
-      svg += `<text x="${PL-6}" y="${y+4}" text-anchor="end" font-size="11" fill="#94a3b8">${v}</text>`;
+      out += `<line x1="${PL}" x2="${W - PR}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
+      out += `<text x="${PL - 6}" y="${y + 4}" text-anchor="end" font-size="11" fill="#94a3b8">${v}</text>`;
     });
-
-    // X axis
-    svg += `<line x1="${PL}" x2="${W-PR}" y1="${PT+plotH}" y2="${PT+plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
-    svg += `<line x1="${PL}" x2="${PL}" y1="${PT}" y2="${PT+plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
-
-    // X ticks — one per month across the full range
-    const startDate = new Date(xMin - padding);
-    startDate.setDate(1); // snap to month start
-    const endDate   = new Date(xMax + padding);
-    const MNAME = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    out += `<line x1="${PL}" x2="${W - PR}" y1="${PT + plotH}" y2="${PT + plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
+    out += `<line x1="${PL}" x2="${PL}" y1="${PT}" y2="${PT + plotH}" stroke="#e2e8f0" stroke-width="1"/>`;
+    const startDate = new Date(xMin - padding); startDate.setDate(1);
+    const endDate = new Date(xMax + padding);
     let tickDate = new Date(startDate);
     while (tickDate <= endDate) {
       const tx = px(tickDate.getTime());
-      if (tx >= PL && tx <= W-PR) {
-        svg += `<line x1="${tx.toFixed(1)}" x2="${tx.toFixed(1)}" y1="${PT+plotH}" y2="${PT+plotH+4}" stroke="#94a3b8" stroke-width="1"/>`;
+      if (tx >= PL && tx <= W - PR) {
+        out += `<line x1="${tx.toFixed(1)}" x2="${tx.toFixed(1)}" y1="${PT + plotH}" y2="${PT + plotH + 4}" stroke="#94a3b8" stroke-width="1"/>`;
         const lbl = `${MNAME[tickDate.getMonth()]} '${String(tickDate.getFullYear()).slice(2)}`;
-        svg += `<text x="${tx.toFixed(1)}" y="${PT+plotH+16}" font-size="10" fill="#94a3b8" text-anchor="middle">${lbl}</text>`;
+        out += `<text x="${tx.toFixed(1)}" y="${PT + plotH + 16}" font-size="10" fill="#94a3b8" text-anchor="middle">${lbl}</text>`;
       }
-      tickDate.setMonth(tickDate.getMonth()+1);
+      tickDate.setMonth(tickDate.getMonth() + 1);
     }
-
-    // X axis label
-    svg += `<text x="${PL+plotW/2}" y="${H-6}" font-size="11" fill="#64748b" text-anchor="middle">${xLabel}</text>`;
-
-    // Trend line
-    const tx1 = xMin, tx2 = xMax;
-    const ty1 = trendY(tx1), ty2 = trendY(tx2);
+    out += `<text x="${PL + plotW / 2}" y="${H - 6}" font-size="11" fill="#64748b" text-anchor="middle">${esc(xLabel)}</text>`;
     if (n > 1) {
-      svg += `<line x1="${px(tx1).toFixed(1)}" y1="${Math.max(PT, Math.min(PT+plotH, py(ty1))).toFixed(1)}"
-                    x2="${px(tx2).toFixed(1)}" y2="${Math.max(PT, Math.min(PT+plotH, py(ty2))).toFixed(1)}"
-              stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>`;
+      const ty1 = trendY(xMin), ty2 = trendY(xMax);
+      out += `<line x1="${px(xMin).toFixed(1)}" y1="${Math.max(PT, Math.min(PT + plotH, py(ty1))).toFixed(1)}" x2="${px(xMax).toFixed(1)}" y2="${Math.max(PT, Math.min(PT + plotH, py(ty2))).toFixed(1)}" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>`;
     }
-
-    // Dots — filled for y>0, hollow for y=0. Yellow stroke only in the RES-only filter.
     const seenXY = {};
     const hitDots = [];
     validPts.forEach(p => {
-      const key = p.x + '|' + p.y;
+      const key = p.x + "|" + p.y;
       const slot = seenXY[key] || 0;
       seenXY[key] = slot + 1;
-      const cx = Math.max(PL+8, px(new Date(p.x).getTime()) - slot * 12);
+      const cx = Math.max(PL + 8, px(new Date(p.x).getTime()) - slot * 12);
       const cy = py(p.y);
-      hitDots.push({cx, cy, W, H, label: p.label, calc: p.calc||'', windowKey});
-      const tip = `${p.label}\n${p.x}: ${p.y} bug${p.y!==1?'s':''}`;
-      const stroke = p.resDot ? '#F5D76E' : '#fff';
-      const sw = p.resDot ? '2.5' : '1.5';
+      hitDots.push({ cx, cy, W, H, label: p.label, epicId: p.epicId, windowKey });
+      const tip = esc(`${p.label}\n${p.x}: ${p.y} bug${p.y !== 1 ? "s" : ""}`);
+      const stroke = p.resDot ? "#F5D76E" : "#fff";
+      const sw = p.resDot ? "2.5" : "1.5";
       if (p.y === 0) {
-        svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"
-          fill="#fff" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.6"
-          style="cursor:pointer"><title>${escXml(tip)}</title></circle>`;
+        out += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="#fff" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.6" style="cursor:pointer"><title>${tip}</title></circle>`;
       } else {
-        svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"
-          fill="#3b82f6" fill-opacity="0.8" stroke="${stroke}" stroke-width="${sw}"
-          style="cursor:pointer"><title>${escXml(tip)}</title></circle>`;
+        out += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="#3b82f6" fill-opacity="0.8" stroke="${stroke}" stroke-width="${sw}" style="cursor:pointer"><title>${tip}</title></circle>`;
       }
     });
     if (!validPts.some(p => p.y > 0)) {
-      svg += `<text x="${PL}" y="${PT+28}" font-size="12" fill="#94a3b8">No epics with bugs in this window for the current filter.</text>`;
+      out += `<text x="${PL}" y="${PT + 28}" font-size="12" fill="#94a3b8">No epics with bugs in this window for the current filter.</text>`;
     }
-
-    svg += '</svg>';
-    return {svg, dots: hitDots};
+    out += "</svg>";
+    return { svg: out, dots: hitDots };
   }
 
-  function renderChart(containerId, result) {
+  function renderChart(containerId, result){
     const container = document.getElementById(containerId);
     container.innerHTML = result.svg;
-    container.style.position = 'relative';
+    container.style.position = "relative";
     result.dots.forEach(d => {
-      const btn = document.createElement('button');
+      const btn = document.createElement("button");
       btn.title = d.label;
-      const hw = d.hitW || 20, hh = d.hitH || 20;
-      const left = (d.cx - (d.hitW ? 8 : hw/2)) / d.W * 100;
-      const top  = (d.cy - hh/2) / d.H * 100;
-      const width = hw / d.W * 100;
-      const height = hh / d.H * 100;
-      btn.style.cssText = `position:absolute;left:${left.toFixed(2)}%;top:${top.toFixed(2)}%;width:${width.toFixed(2)}%;height:${height.toFixed(2)}%;background:transparent;border:none;cursor:pointer;padding:0;z-index:10`;
-      btn.addEventListener('click', () => window.showMBugs(d.calc, d.label, d.windowKey));
+      const left = (d.cx - 10) / d.W * 100;
+      const top = (d.cy - 10) / d.H * 100;
+      btn.style.cssText = `position:absolute;left:${left.toFixed(2)}%;top:${top.toFixed(2)}%;width:${(20 / d.W * 100).toFixed(2)}%;height:${(20 / d.H * 100).toFixed(2)}%;background:transparent;border:none;cursor:pointer;padding:0;z-index:10`;
+      btn.addEventListener("click", () => window.showMBugs(d.epicId, d.label, d.windowKey));
       container.appendChild(btn);
     });
   }
 
-  const closedEpics = EPICS.filter(e => e.close);
-
-  function chart1Points(filter) {
+  function chart1Points(filter){
     const seen = new Set();
     const pts = [];
     const push = (e, x, y) => {
-      if (!x || seen.has(e.label)) return;
-      seen.add(e.label);
-      pts.push({
-        label: e.label,
-        calc: EPIC_TO_CALC[e.label]||e.label,
-        x, y,
-        resDot: filter === 'res' && y > 0
-      });
+      if (!x || seen.has(e.id)) return;
+      seen.add(e.id);
+      pts.push({ label: e.label, epicId: e.id, x, y, resDot: filter === "res" && y > 0 });
     };
-    // Always plot closed epics with zero bugs (hollow), in every dropdown filter.
-    // Skip y=0 when the epic still has other-class bugs — those are not "empty".
     closedEpics.forEach(e => {
-      const yAll = epicCount(e.label, 'beta', 'all');
-      const y = epicCount(e.label, 'beta', filter);
+      const yAll = epicCount(e.id, "beta", "all");
+      const y = epicCount(e.id, "beta", filter);
       if (y === 0 && yAll > 0) return;
       push(e, e.close, y);
     });
-    EPICS.forEach(e => {
+    chartEpics.forEach(e => {
       if (e.close) return;
-      const y = epicCount(e.label, 'beta', filter);
-      if (y > 0) push(e, firstQbs(e.label, filter), y);
+      const y = epicCount(e.id, "beta", filter);
+      if (y > 0) push(e, firstQbs(e.id, filter), y);
     });
     return pts;
   }
 
-  function buildCharts(filter) {
-    const chart1 = makeScatter(
-      "Bugs found before close",
-      "Epic close date →",
-      chart1Points(filter),
-      "beta"
-    );
-    const chart2 = makeScatter(
-      "New bugs in first 30 days after Epic close",
-      "Epic close date →",
-      closedEpics.map(e => ({
-        label: e.label,
-        calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.close,
-        y: epicCount(e.label, '30d', filter) ?? 0
-      })),
-      "30d"
-    );
-    const chart3 = makeScatter(
-      "New bugs in first 90 days after Epic close",
-      "Epic close date →",
-      closedEpics.map(e => ({
-        label: e.label,
-        calc: EPIC_TO_CALC[e.label]||e.label,
-        x: e.close,
-        y: epicCount(e.label, '90d', filter) ?? 0
-      })),
-      "90d"
-    );
-    renderChart('m-chart-beta', chart1);
-    renderChart('m-chart-30d',  chart2);
-    renderChart('m-chart-90d',  chart3);
-    // Update subtitle with filter info
-    const subtitle = filter === 'class23'
-      ? 'Showing <b>Class 2 &amp; 3 only</b> (High / Critical bugs)'
-      : filter === 'res'
-        ? 'Showing <b>RES 3rd-party only</b> (any class)'
-        : 'Showing <b>all bugs</b> (RES and others)';
-    const el = document.getElementById('m-filter-label');
+  function buildCharts(filter){
+    currentFilter = filter;
+    renderChart("m-chart-beta", makeScatter("Bugs found before close", "Epic close date →", chart1Points(filter), "beta"));
+    renderChart("m-chart-30d", makeScatter("New bugs in first 30 days after Epic close", "Epic close date →",
+      closedEpics.map(e => ({ label: e.label, epicId: e.id, x: e.close, y: epicCount(e.id, "30d", filter) ?? 0, resDot: filter === "res" && (epicCount(e.id, "30d", filter) ?? 0) > 0 })), "30d"));
+    renderChart("m-chart-90d", makeScatter("New bugs in first 90 days after Epic close", "Epic close date →",
+      closedEpics.map(e => ({ label: e.label, epicId: e.id, x: e.close, y: epicCount(e.id, "90d", filter) ?? 0, resDot: filter === "res" && (epicCount(e.id, "90d", filter) ?? 0) > 0 })), "90d"));
+    const subtitle = filter === "class23"
+      ? "Showing <b>Class 2 &amp; 3 only</b> (High / Critical bugs)"
+      : filter === "res"
+        ? "Showing <b>RES 3rd-party only</b> (any class)"
+        : "Showing <b>all bugs</b> (RES and others)";
+    const el = document.getElementById("m-filter-label");
     if (el) el.innerHTML = subtitle;
   }
 
-  window.applyBugFilter = function(val) {
-    currentFilter = val;
-    buildCharts(val);
-  };
+  window.applyBugFilter = function(val){ buildCharts(val); };
+  buildCharts("all");
 
-  buildCharts('all');
-
-  // Bugs por epic (solo los 9 confirmados por linked task)
-
-  // showMBugs — abre el drawer específico de esa gráfica
-  window.showMBugs = function(calc, epicLabel, windowKey) {
+  window.showMBugs = function(epicId, epicLabel, windowKey){
     const drawerId = `m-drawer-${windowKey}`;
-    const titleId  = `m-title-${windowKey}`;
-    const tbodyId  = `m-tbody-${windowKey}`;
-
-    const QBS = window.QBS_I || {};
-    const ids = EPIC_BUG_IDS[epicLabel] || [];
-    const allBugs = applyBugClassFilter(BUGS.filter(b => ids.includes(b.id)), currentFilter);
-    const epic = (window._M_EPICS||[]).find(e => e.label === epicLabel);
+    const titleId = `m-title-${windowKey}`;
+    const tbodyId = `m-tbody-${windowKey}`;
+    const epic = chartEpics.find(e => e.id === epicId);
+    const allBugs = applyBugClassFilter(BUGS.filter(b => b.epicId === epicId), currentFilter);
     let bugs = allBugs;
-    if (epic) {
-      if (windowKey === 'beta') {
-        bugs = epic.close
-          ? allBugs.filter(b => (QBS[b.id]||'') <= epic.close)
-          : allBugs;
-      } else if (windowKey === '30d' || windowKey === '90d') {
-        if (!epic.close) {
-          // No close date — show message and return early
-          const rawKey0 = Object.keys(window.EPIC_LABEL||{}).find(k => window.EPIC_LABEL[k] === epicLabel) || epicLabel;
-          const epicEntry0 = (window._EPICS_GLOBAL||{})[rawKey0];
-          const epicUrl0 = epicEntry0 ? `https://app.clickup.com/t/${epicEntry0.epicId}` : null;
-          document.getElementById(titleId).innerHTML = epicUrl0
-            ? `<a href="${epicUrl0}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline">${epicLabel}</a> — not closed yet`
-            : `${epicLabel} — not closed yet`;
-          document.getElementById(tbodyId).innerHTML = `<tr><td colspan="6" style="padding:20px 12px;text-align:center;color:#94a3b8">This epic has not been closed yet — no post-close window available.</td></tr>`;
-          const drawer0 = document.getElementById(drawerId);
-          drawer0.style.display = 'block';
-          drawer0.scrollIntoView({behavior:'smooth', block:'nearest'});
-          return;
-        }
-        const days = windowKey === '30d' ? 30 : 90;
-        const d = new Date(epic.close); d.setDate(d.getDate()+days);
-        bugs = allBugs.filter(b => (QBS[b.id]||'') > epic.close && (QBS[b.id]||'') <= d.toISOString().slice(0,10));
+    if (epic && windowKey === "beta") {
+      bugs = epic.close ? allBugs.filter(b => (b.qbs || "") <= epic.close) : allBugs;
+    } else if (epic && (windowKey === "30d" || windowKey === "90d")) {
+      if (!epic.close) {
+        document.getElementById(titleId).innerHTML = `${esc(epicLabel)} — not closed yet`;
+        document.getElementById(tbodyId).innerHTML = `<tr><td colspan="6" style="padding:20px 12px;text-align:center;color:#94a3b8">This epic has not been closed yet — no post-close window available.</td></tr>`;
+        const drawer0 = document.getElementById(drawerId);
+        drawer0.style.display = "block";
+        drawer0.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        return;
       }
+      const days = windowKey === "30d" ? 30 : 90;
+      const d = new Date(epic.close + "T00:00:00");
+      d.setDate(d.getDate() + days);
+      const until = d.toISOString().slice(0, 10);
+      bugs = allBugs.filter(b => (b.qbs || "") > epic.close && (b.qbs || "") <= until);
     }
-
-    // Epic link — reverse lookup in EPIC_LABEL then EPICS
-    const rawKey = Object.keys(window.EPIC_LABEL||{}).find(k => window.EPIC_LABEL[k] === epicLabel) || epicLabel;
-    const epicEntry = (window._EPICS_GLOBAL||{})[rawKey];
-    const epicUrl = epicEntry ? `https://app.clickup.com/t/${epicEntry.epicId}` : null;
-    const titleLink = epicUrl
-      ? `<a href="${epicUrl}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline">${epicLabel}</a> — ${bugs.length} bug${bugs.length!==1?'s':''}`
-      : `${epicLabel} — ${bugs.length} bug${bugs.length!==1?'s':''}`;
-    document.getElementById(titleId).innerHTML = titleLink;
-
-    const CLSC_M = CLSC;
-
+    const epicUrl = epic && epic.url;
+    document.getElementById(titleId).innerHTML = epicUrl
+      ? `<a href="${esc(epicUrl)}" target="_blank" rel="noopener" style="color:var(--navy,#1e293b);text-decoration:underline">${esc(epicLabel)}</a> — ${bugs.length} bug${bugs.length !== 1 ? "s" : ""}`
+      : `${esc(epicLabel)} — ${bugs.length} bug${bugs.length !== 1 ? "s" : ""}`;
     document.getElementById(tbodyId).innerHTML = bugs.length
-      ? bugs.sort((a,b)=>(QBS[a.id]||'').localeCompare(QBS[b.id]||'')).map((b,i) => {
-      const qbs = QBS[b.id]||'—';
-      const clsColor = CLSC_M[b.cls]||'#94a3b8';
-      const isOpen = b.st !== 'close' && b.st !== 'blocked' && b.st !== "won't fix";
-      const dot = isOpen
-        ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px"></span>`
-        : `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#94a3b8;margin-right:5px"></span>`;
-      const rowBg = i%2===0?'var(--surface,#fff)':'var(--surface2,#f8fafc)';
-      const ltsHtml = (b.lts&&b.lts.length)
-        ? b.lts.map(([id,name])=>`<a href="https://app.clickup.com/t/${id}" target="_blank" rel="noopener"
-            style="display:block;color:var(--navy,#1e293b);text-decoration:underline;font-size:11px;white-space:nowrap;margin-bottom:2px">${name}</a>`).join('')
-        : b.pr ? `<span style="color:var(--grey,#94a3b8);font-size:11px">No linked task</span>`
-               : `<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>`;
-      const prHtml = b.pr
-        ? `<a href="https://github.com/ClearCalcs/dev-environment/pull/${b.pr}" target="_blank" rel="noopener"
-             style="color:var(--navy,#1e293b);text-decoration:underline;font-size:11px">#${b.pr}</a>`
-        : `<span style="color:var(--grey,#94a3b8);font-size:11px">—</span>`;
-      return `<tr style="background:${rowBg}">
-        <td style="padding:7px 12px;font-family:monospace;white-space:nowrap;color:var(--grey,#64748b)">${qbs}</td>
-        <td style="padding:7px 12px;max-width:320px">
-          <a href="https://app.clickup.com/t/${b.id}" target="_blank" rel="noopener"
-            style="color:var(--navy,#1e293b);text-decoration:underline;font-size:12px">${b.n}</a>
-        </td>
-        <td style="padding:7px 12px;white-space:nowrap">
-          <span style="background:${clsColor};color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px${b.cohort==='res-sep-2026'?';outline:2px solid #F5D76E;outline-offset:1px':''}">${b.cls}</span>
-        </td>
-        <td style="padding:7px 12px;white-space:nowrap">${dot}${b.st}</td>
-        <td style="padding:7px 12px;min-width:180px">${ltsHtml}</td>
-        <td style="padding:7px 12px;white-space:nowrap">${prHtml}</td>
-      </tr>`;
-    }).join('')
+      ? bugRowsHtml(bugs, qbsMap)
       : `<tr><td colspan="6" style="padding:20px 12px;text-align:center;color:#94a3b8">No bugs in this window</td></tr>`;
     const drawer = document.getElementById(drawerId);
-    drawer.style.display = 'block';
-    drawer.scrollIntoView({behavior:'smooth', block:'nearest'});
+    drawer.style.display = "block";
+    drawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
+}
 
-  // Expose EPICS for showMBugs lookup
-  window._M_EPICS = EPICS.map(e => ({...e, label: e.label}));
-})();
-
+loadJsonp(DATA_URL).then(boot).catch(err => {
+  const el = document.getElementById("live-status");
+  el.className = "warnbar";
+  el.textContent = "Could not load live Sheet data. " + (err && err.message ? err.message : err);
+});
 </script>
 </body>
 </html>
