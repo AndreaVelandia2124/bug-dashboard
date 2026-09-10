@@ -56,12 +56,10 @@ svg.tl .tl-grid{stroke:var(--line-f);stroke-width:1}
 svg.tl .tl-axis{stroke:var(--ink);stroke-width:2}
 svg.tl .tl-axl{font-size:11px;font-weight:600;fill:var(--grey-l);text-anchor:middle}
 svg.tl .tl-calc{font-size:11.5px;font-weight:600;fill:var(--grey);text-anchor:start}
-.tl-ylab{position:absolute;left:20px;top:0;transform-origin:left center;overflow:hidden;text-align:left;line-height:1.2}
-.tl-ylab a,.tl-ylab .n{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-size:11.5px;font-weight:600;color:var(--navy);text-decoration:underline}
+.tl-ylab{position:absolute;left:20px;top:0;height:38px;transform-origin:left center;overflow:hidden;text-align:left;display:flex;align-items:center}
+.tl-ylab a,.tl-ylab .n{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:11.5px;font-weight:600;color:var(--navy);text-decoration:underline;line-height:38px}
 .tl-ylab .n{text-decoration:none;color:var(--grey)}
-.tl-ylab .st{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-size:9.5px;font-weight:600;color:var(--grey-l);margin-top:1px}
 svg.tl .tl-dot{cursor:pointer;transition:r .1s}
 svg.tl .tl-dot:hover{r:8}
 svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middle}
@@ -434,7 +432,7 @@ function boot(raw){
     isNew: b.cohort === RES_COHORT
   })).filter(p => p.qbs);
 
-  const LW = 220, RW = 960, PB = 38, PT = 18, ROW = 44;
+  const LW = 220, RW = 960, PB = 38, PT = 18, ROW = 38;
   const rowHeight = {};
   const rowTop = {};
   let yAcc = PT;
@@ -566,25 +564,21 @@ function boot(raw){
     ylab.className = "tl-ylab";
     ylab.style.width = (LW - 28) + "px";
     ylab.title = tip;
+    const line = (ep !== NO_EPIC && meta.status) ? `${name} · ${meta.status}` : name;
     if (meta.url && ep !== NO_EPIC) {
       const a = document.createElement("a");
       a.href = meta.url;
       a.target = "_blank";
       a.rel = "noopener";
-      a.textContent = name;
+      a.textContent = line;
       a.title = tip;
       ylab.appendChild(a);
     } else {
       const n = document.createElement("span");
       n.className = "n";
-      n.textContent = name;
+      n.textContent = line;
+      n.title = tip;
       ylab.appendChild(n);
-    }
-    if (ep !== NO_EPIC && meta.status) {
-      const st = document.createElement("span");
-      st.className = "st";
-      st.textContent = meta.status;
-      ylab.appendChild(st);
     }
     const reposition = () => {
       const scale = getScale();
