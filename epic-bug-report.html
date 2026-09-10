@@ -55,8 +55,13 @@ svg.tl{display:block;font-family:Inter,sans-serif;overflow:visible}
 svg.tl .tl-grid{stroke:var(--line-f);stroke-width:1}
 svg.tl .tl-axis{stroke:var(--ink);stroke-width:2}
 svg.tl .tl-axl{font-size:11px;font-weight:600;fill:var(--grey-l);text-anchor:middle}
-svg.tl .tl-calc{font-size:11px;font-weight:600;fill:var(--grey);text-anchor:end}
-svg.tl .tl-status{font-size:9.5px;font-weight:600;fill:var(--grey-l);text-decoration:none}
+svg.tl .tl-calc{font-size:11.5px;font-weight:600;fill:var(--grey);text-anchor:start}
+.tl-ylab{position:absolute;left:20px;top:0;transform-origin:left center;overflow:hidden;text-align:left;line-height:1.2}
+.tl-ylab a,.tl-ylab .n{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:11.5px;font-weight:600;color:var(--navy);text-decoration:underline}
+.tl-ylab .n{text-decoration:none;color:var(--grey)}
+.tl-ylab .st{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:9.5px;font-weight:600;color:var(--grey-l);margin-top:1px}
 svg.tl .tl-dot{cursor:pointer;transition:r .1s}
 svg.tl .tl-dot:hover{r:8}
 svg.tl .tl-mo{font-size:10.5px;font-weight:700;fill:var(--ink);text-anchor:middle}
@@ -238,26 +243,6 @@ function parseLts(s){
 }
 function fullName(ep){
   return String((ep && (ep.name || ep.label || ep.id)) || "").trim();
-}
-function wrapLines(text, maxChars){
-  const raw = String(text || "").trim();
-  if (!raw) return [""];
-  const words = raw.split(/\s+/);
-  const lines = [];
-  let cur = "";
-  const flush = () => { if (cur) { lines.push(cur); cur = ""; } };
-  words.forEach(w => {
-    if (w.length > maxChars) {
-      flush();
-      for (let i = 0; i < w.length; i += maxChars) lines.push(w.slice(i, i + maxChars));
-      return;
-    }
-    const next = cur ? cur + " " + w : w;
-    if (next.length > maxChars && cur) { lines.push(cur); cur = w; }
-    else cur = next;
-  });
-  flush();
-  return lines.length ? lines : [raw];
 }
 function monthRange(startIso, endIso){
   const months = [];
@@ -449,19 +434,14 @@ function boot(raw){
     isNew: b.cohort === RES_COHORT
   })).filter(p => p.qbs);
 
-  const LW = 340, RW = 960, PB = 38, PT = 18;
-  const NAME_LH = 13, ST_LH = 12, ROW_PAD = 10, NAME_CHARS = 42;
+  const LW = 220, RW = 960, PB = 38, PT = 18, ROW = 44;
   const rowHeight = {};
   const rowTop = {};
   let yAcc = PT;
   EPICS_ROW.forEach(id => {
-    const meta = rowMeta[id];
-    const nLines = wrapLines(fullName(meta), NAME_CHARS).length;
-    const st = (id !== NO_EPIC && meta.status) ? 1 : 0;
-    const h = Math.max(44, ROW_PAD * 2 + nLines * NAME_LH + st * ST_LH);
-    rowHeight[id] = h;
+    rowHeight[id] = ROW;
     rowTop[id] = yAcc;
-    yAcc += h;
+    yAcc += ROW;
   });
   const W = LW + RW + 20;
   const H = yAcc + PB;
@@ -499,23 +479,6 @@ function boot(raw){
     svg += `<text class="tl-axl" x="${x}" y="${H - PB + 16}">${MLBL[i]}</text>`;
     const cnt = points.filter(p => p.qbs.startsWith(mo)).length;
     if (cnt) svg += `<text class="tl-mo" x="${x}" y="${PT - 6}">${cnt}</text>`;
-  });
-  EPICS_ROW.forEach(ep => {
-    const meta = rowMeta[ep];
-    const lines = wrapLines(fullName(meta), NAME_CHARS);
-    const hasSt = ep !== NO_EPIC && meta.status;
-    const blockH = lines.length * NAME_LH + (hasSt ? ST_LH : 0);
-    const y0 = yOf(ep) - blockH / 2 + 10;
-    const x = LW - 14;
-    const tspans = lines.map((ln, i) =>
-      `<tspan x="${x}" dy="${i === 0 ? 0 : NAME_LH}">${esc(ln)}</tspan>`
-    ).join("") + (hasSt
-      ? `<tspan x="${x}" dy="${ST_LH}" class="tl-status">${esc(meta.status)}</tspan>`
-      : "");
-    const linked = meta.url && ep !== NO_EPIC;
-    const style = linked ? 'style="fill:var(--navy,#2E3A87);text-decoration:underline;cursor:pointer"' : "";
-    const text = `<text class="tl-calc" x="${x}" y="${y0.toFixed(1)}" ${style}>${tspans}</text>`;
-    svg += linked ? `<a href="${esc(meta.url)}" target="_blank" rel="noopener">${text}</a>` : text;
   });
 
   const jitter = {};
@@ -589,17 +552,49 @@ function boot(raw){
   const getScale = () => svgEl ? svgEl.getBoundingClientRect().width / W : 1;
   EPICS_ROW.forEach(ep => {
     const yCoord = yOf(ep);
+    const meta = rowMeta[ep];
+    const name = fullName(meta);
+    const tip = name + (meta.status ? " · " + meta.status : "");
     const btn = document.createElement("button");
     btn.textContent = "≡";
     btn.title = "Show bug list";
-    btn.style.cssText = "position:absolute;left:2px;top:0;transform-origin:left center;background:none;border:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--navy,#2E3A87);padding:2px 4px;line-height:1;border-radius:3px;opacity:0.7";
+    btn.style.cssText = "position:absolute;left:2px;top:0;transform-origin:left center;background:none;border:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--navy,#2E3A87);padding:2px 4px;line-height:1;border-radius:3px;opacity:0.7;z-index:2";
     btn.addEventListener("mouseenter", () => { btn.style.opacity = "1"; btn.style.background = "rgba(46,58,135,.08)"; });
     btn.addEventListener("mouseleave", () => { btn.style.opacity = "0.7"; btn.style.background = "none"; });
     btn.addEventListener("click", () => window.showEpicBugs(ep));
-    const reposition = () => { btn.style.transform = `translateY(${yCoord * getScale()}px) translateY(-50%)`; };
+    const ylab = document.createElement("div");
+    ylab.className = "tl-ylab";
+    ylab.style.width = (LW - 28) + "px";
+    ylab.title = tip;
+    if (meta.url && ep !== NO_EPIC) {
+      const a = document.createElement("a");
+      a.href = meta.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = name;
+      a.title = tip;
+      ylab.appendChild(a);
+    } else {
+      const n = document.createElement("span");
+      n.className = "n";
+      n.textContent = name;
+      ylab.appendChild(n);
+    }
+    if (ep !== NO_EPIC && meta.status) {
+      const st = document.createElement("span");
+      st.className = "st";
+      st.textContent = meta.status;
+      ylab.appendChild(st);
+    }
+    const reposition = () => {
+      const scale = getScale();
+      btn.style.transform = `translateY(${yCoord * scale}px) translateY(-50%)`;
+      ylab.style.transform = `translateY(${yCoord * scale}px) translateY(-50%)`;
+    };
     window.addEventListener("resize", reposition, { passive: true });
     requestAnimationFrame(reposition);
     chartDiv.appendChild(btn);
+    chartDiv.appendChild(ylab);
   });
 
   const usedCls = [...new Set(points.map(p => p.cls))];
